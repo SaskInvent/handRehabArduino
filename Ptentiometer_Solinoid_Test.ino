@@ -2,11 +2,13 @@
 
 // Constants for the Flex Sensor and Potentiometer Readings. 
 // This is detailing, the pin numbers that are used for input or output 
-const int potInput = A2; // Analog input 2, potentiometer input.
 const int flexInput = A1; // Analog input 1, for flex sensor input.
+const int potInput = A2; // Analog input 2, potentiometer input.
 const int flowControlValve =  7;  // Regular finger valve
 const int emergencyValve = 6; // Release valve
-const int button = 8;
+const int button = 8; // Emergency release button.
+const int MOTOR_FORWARD = 9; // forward motor control
+const int  MOTOR_REVERSE = 10; // reverse motor control
 
 // These constants are used for calibrating the flex sensor at the start of the trials. 
 // These will be eventually replaced when we can
@@ -19,8 +21,6 @@ int trueFlex; // Will be the remapped value read from the flex sensor.
 int potValue; // The potentiometer value read.
 int buttonTest; // Reads 
 
-const int MOTOR_FORWARD = 9; // forward motor control
-const int  MOTOR_REVERSE = 10; // reverse motor control
 int PWM = 0; // Controls motor driver. Value betweem 0-255. GETS MAPPED FROM MAP 0-1023!
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -46,8 +46,6 @@ void initializePins(){
 void testingSetupOutput(){
   Serial.println("Analog Value of Potentiometer: "); 
 
-  Serial.print("Integer value of A0:  ");
-  Serial.println(potInput);
   Serial.print("Integer value of A1:  ");
   Serial.println(flexInput);
   Serial.print("Integer value of A2:  ");
@@ -72,6 +70,18 @@ void testCalibrationOutput(){
   Serial.println(flexSensorHigh);
 }
 
+/*
+ * Prints the final calibrated values to Serial output.
+ */
+void testingFinalCalibrationOutput(){
+  //Printing the most important values to the serial monitor
+  Serial.print("Max Value of Flex Sensor: ");
+  Serial.print(flexSensorHigh);
+  Serial.print("Min Value of Flex Sensor: ");
+  Serial.println(flexSensorLow);
+  delay(3000);
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// END SETUP FUNCTIONS ////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -80,6 +90,7 @@ void testCalibrationOutput(){
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////// BEGIN SETUP /////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
+
 /*
  * Initialize the setup. 
  * 
@@ -129,12 +140,6 @@ void setup() {
     }
     delay(100);
   }
-  //Printing the most important values to the serial monitor
-  Serial.print("Max Value of Flex Sensor: ");
-  Serial.print(flexSensorHigh);
-  Serial.print("Min Value of Flex Sensor: ");
-  Serial.println(flexSensorLow);
-  delay(3000);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -211,6 +216,7 @@ void maintainGlovePressure(){
 
 void loop() {
   // put your main code here, to run repeatedly:
+  // testingModularization();
 
   // Reading of the flex sensor value that is attached to the finger balloon
   // The map function is used to increase our resolution from whatever the 
