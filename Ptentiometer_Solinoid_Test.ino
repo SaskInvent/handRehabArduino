@@ -2,13 +2,13 @@
 
 // Constants for the Flex Sensor and Potentiometer Readings. 
 // This is detailing, the pin numbers that are used for input or output 
+const int potInput = A0; // Analog input 2, potentiometer input.
 const int flexInput = A1; // Analog input 1, for flex sensor input.
-const int potInput = A2; // Analog input 2, potentiometer input.
-const int flowControlValve =  7;  // Regular finger valve
-const int emergencyValve = 6; // Release valve
+const int emergencyValve = 5; // Release valve
+const int fingerValve =  7;  // Regular finger valve
 const int button = 8; // Emergency release button.
 const int MOTOR_FORWARD = 9; // forward motor control
-const int  MOTOR_REVERSE = 10; // reverse motor control
+// const int  MOTOR_REVERSE = 10; // reverse motor control
 
 // These constants are used for calibrating the flex sensor at the start of the trials. 
 // These will be eventually replaced when we can
@@ -31,11 +31,11 @@ int PWM = 0; // Controls motor driver. Value betweem 0-255. GETS MAPPED FROM MAP
  * Initialize all output/input pins.
  */
 void initializePins(){
-  pinMode(flowControlValve, OUTPUT);
+  pinMode(fingerValve, OUTPUT);
   pinMode(emergencyValve, OUTPUT);
 
   pinMode(MOTOR_FORWARD, OUTPUT); // Takes variable integer values to set the speed of the motor.
-  pinMode(MOTOR_REVERSE, OUTPUT); // NEVER set to high.  We write this low as a safety measure.
+  //pinMode(MOTOR_REVERSE, OUTPUT); // NEVER set to high.  We write this low as a safety measure.
 
   pinMode(button, INPUT); // Used to stop the motor, and release the pressure in the system. ??Confirm with Nelson??
 }
@@ -110,7 +110,7 @@ void setup() {
   initializePins();
 
   
-  digitalWrite(flowControlValve, LOW);
+  digitalWrite(fingerValve, LOW);
   digitalWrite(emergencyValve, LOW);
 
   potValue=analogRead(potInput); // 
@@ -173,7 +173,7 @@ int testButton(){
   // 3 sequential steps:
   digitalWrite(MOTOR_FORWARD, LOW); // Turn off the motor.
   delay(100);
-  digitalWrite(flowControlValve, HIGH); // Open the flow control valve.  
+  digitalWrite(fingerValve, HIGH); // Open the flow control valve.  
                                         // Let the pressure from the glove back into the system.
   delay(100);
   digitalWrite(emergencyValve, HIGH); // Let the pressure out of the system.
@@ -217,6 +217,8 @@ void maintainGlovePressure(){
 void loop() {
   // put your main code here, to run repeatedly:
   // testingModularization();
+
+  digitalWrite(MOTOR_FORWARD, HIGH);
 
   // Reading of the flex sensor value that is attached to the finger balloon
   // The map function is used to increase our resolution from whatever the 
