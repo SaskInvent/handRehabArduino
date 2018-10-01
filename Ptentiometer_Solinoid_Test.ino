@@ -1,4 +1,7 @@
 
+////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////// BEGIN INITIALIZING GLOBALS ///////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
 
 // Constants for the Flex Sensor and Potentiometer Readings. 
 // This is detailing, the pin numbers that are used for input or output 
@@ -8,12 +11,18 @@ const int emergencyValve = 5; // Release valve
 const int fingerValve =  7;  // Regular finger valve
 const int button = 8; // Emergency release button.
 const int MOTOR_FORWARD = 9; // forward motor control
-// const int  MOTOR_REVERSE = 10; // reverse motor control
+
+// constants for automated flex sensor threshold logic and automated emergency shutoff.
+const int SAFETY_THRESHOLD_HIGH = 1000;     // All values compared to input from trueFlex.
+const int SAFETY_THRESHOLD_LOW = -100;
+const int MAINTENANCE_THRESHOLD = 500; // Used in the main "void loop()" function.
+const int DEFLATION_THRESHOLD = 650;   //
 
 // These constants are used for calibrating the flex sensor at the start of the trials. 
 // These will be eventually replaced when we can
 // hold a consistant calibration between trails (aka signal conditioning).
-int flexSensorLow = 1023; // INITIALIZATION: This number will be the lower of the 2 after the calibration loop.
+int flexSensorLow = 1023; // INITIALIZATION: This number will be the lower of the 2 after 
+                          // the calibration loop.
 int flexSensorHigh = 0; // INITIALIZATION: Will be the HIGHER number after the calibration loop.
 
 int flexValue; // The value read from the flex sensor.
@@ -22,6 +31,11 @@ int potValue; // The potentiometer value read.
 int buttonTest; // Reads 
 
 int PWM = 0; // Controls motor driver. Value betweem 0-255. GETS MAPPED FROM MAP 0-1023!
+
+////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////// END INITIALIZING GLOBALS ///////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////// BEGIN SETUP FUNCTIONS ///////////////////////////////////
@@ -36,49 +50,8 @@ void initializePins(){
 
   pinMode(MOTOR_FORWARD, OUTPUT); // Takes variable integer values to set the speed of the motor.
 
-  pinMode(button, INPUT); // Used to stop the motor, and release the pressure in the system. ??Confirm with Nelson??
-}
+  pinMode(button, INPUT); // Used to stop the motor, and release the pressure in the system.
 
-/*
- * Print the results of setup to the console.
- */
-void testingSetupOutput(){
-  Serial.println("Analog Value of Potentiometer: "); 
-
-  Serial.print("Integer value of A1:  ");
-  Serial.println(flexInput);
-  Serial.print("Integer value of A2:  ");
-  Serial.println(potInput);
-  // Pot value, after read.
-  Serial.print("Integer Value of potValue: ");
-  Serial.println(potValue); // maybe move this to the loop so potentiometer can be altered without 
-                            // reseting the build
-}
-
-
-/*
- * Print calibration output to the console.
- */
-void testCalibrationOutput(){
-  Serial.print("Flex value: ");
-  Serial.print(flexValue);
-  Serial.print("  Calibrating flex sensor:");
-  Serial.print("min:");
-  Serial.print(flexSensorLow);
-  Serial.print(" max:");
-  Serial.println(flexSensorHigh);
-}
-
-/*
- * Prints the final calibrated values to Serial output.
- */
-void testingFinalCalibrationOutput(){
-  //Printing the most important values to the serial monitor
-  Serial.print("Max Value of Flex Sensor: ");
-  Serial.print(flexSensorHigh);
-  Serial.print("Min Value of Flex Sensor: ");
-  Serial.println(flexSensorLow);
-  delay(3000);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -151,59 +124,7 @@ void setup() {
 /////////////////////////////// BEGIN LOOP FUNCTIONS ///////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-/*
- * Prints main loop output to the console.
- */
-void loopTestingOutput(){
-  Serial.print("Flex: ");
-  Serial.print(flexValue);  
-  Serial.print("  True flex: ");
-  Serial.print(trueFlex); // this value is divided by 10 because the lcd changes place values if not 
-                              // (ask nelson or brendon)
-  Serial.print("  PWM: ");
-  Serial.println(PWM);
-}
 
-/*
- * Tests the button being pressed???
- * REWORK: This function doesn't reset state properly.
- */
-int testButton(){
-  // Stop the motor. Release all pressure.
-  // 3 sequential steps:
-  digitalWrite(MOTOR_FORWARD, LOW); // Turn off the motor.
-  delay(100);
-  digitalWrite(fingerValve, HIGH); // Open the flow control valve.  
-                                        // Let the pressure from the glove back into the system.
-  delay(100);
-  digitalWrite(emergencyValve, HIGH); // Let the pressure out of the system.
-
-  return digitalRead(button);
-}
-
-/*
- * STATE: inflate the glove.  Interfaces with either the motor AND pump,  
- * OR with the ??? flow control ??? valves as neccessary.
- */
-void inflateGlove(){
-  
-}
-
-/*
- * STATE: inflate the glove.   Interfaces with either the motor AND pump,  
- * OR with the ??? flow control ??? valves as neccessary.
- */
-void deflateGlove(){
-  
-}
-
-/*
- * STATE: Maintian the pressure currently in the glove.   Interfaces with either the motor AND pump,  
- * OR with the ??? flow control ??? valves as neccessary.
- */
-void maintainGlovePressure(){
-  
-}
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////// END LOOP FUNCTIONS ///////////////////////////////////
@@ -215,11 +136,21 @@ void maintainGlovePressure(){
 ////////////////////////////////////////////////////////////////////////////////////////
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  // testingModularization();
+  /////////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////// BEGIN EMERGENCY SHUTOFF ////////////////////////////////////////////
+  // Returns 0 or 1.                                                                        ///
+  // 0 means 0V, 1 for 5V                                                                   ///
+  // 0V == LOW, 5V == HIGH                                                                  ///
+  //////////////// TEMP: An electrical solution will be hardwired in the future. //////////////
+  buttonTest = digitalRead(button);
+  if(buttonTest == HIGH){
+    emergencyShutoff();
+  }
+  //////////////////////// END EMERGENCY SHUTOFF ///////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////////////
 
-  digitalWrite(MOTOR_FORWARD, HIGH);
-
+  //////////////////////////////////////////////////////////////////////////////////////////////
+  //////////////////////// BEGIN READING SYSTEM INPUT //////////////////////////////////////////
   // Reading of the flex sensor value that is attached to the finger balloon
   // The map function is used to increase our resolution from whatever the 
   // calibrated range is to the maximum possible range (0-1023, based on 8 bit 
@@ -231,43 +162,66 @@ void loop() {
   // the remapping and can be used to establish upper and lower bounds on flex if desired.
   trueFlex=map(flexValue, flexSensorLow, flexSensorHigh, 0, 1023);
 
-  // For
-  loopTestingOutput();
-
   // Workaround, analogue synthesizer.  Simulate voltages between 0V and 5V
   // Control the motor speed.  
   PWM = map(analogRead(potInput), 0, 1023, 0, 255); // Maps the value of potentiometer to PWM ranges
 
-  // Turning the light on when the the value of the mapped flex sensor matches within +/- 50 of the potentiometer value. The delay is set so the arduino checks every 300 ms and reports the value 
+  /////////////////////////////// END READING SYSTEM INPUT /////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  // OUTPUT: Prints the flex values ect to Serial output. //////////////////////////////////////////
+  loopTestingOutput();                                                                  ////////////
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  // Turning the light on when the the value of the mapped flex sensor matches within +/- 50 of the 
+  // potentiometer value. The delay is set so the arduino checks every 300 ms and reports the value 
   // to the serial monitor. All values here are subject to change based on requirements of system. 
 
-  //////////////////////// BEGIN EMERGENCY SHUTOFF ///////////////////////////////
-  // Returns 0 or 1.
-  // 0 means 0V, 1 for 5V
-  // 0V == LOW, 5V == HIGH
-  /////////////////////////// TEMP: An electrical solution will be hardwired in the future. ///////////////////////
-  buttonTest = digitalRead(button);
-  while(buttonTest == HIGH){
-    // Stops the motor, and tests to see if the button has been released.
-    Serial.print("Button read value: ");
-    Serial.println(buttonTest);
-    buttonTest = testButton();
-  }
-  //////////////////////// END EMERGENCY SHUTOFF ///////////////////////////////
-
   // Ensures the emergency valve is closed.
-  digitalWrite(emergencyValve, LOW);
+  // REWORK: Make this part of a state.  Every state should control the exact configuration of the 
+  // motor, pump, and valves as required.  This adheres to the principle of least surprise.
+  // digitalWrite(emergencyValve, HIGH);
 
   bool deflating = false; // TEMP: Flag that sets the deflating state.
   bool inflating = false; // TEMP: Flag that sets the inflating state.
-  
-  if (deflating){
-    deflateGlove();
-  } else if (inflating){
-    inflateGlove();
-  } else {
-    maintainGlovePressure();
+
+  ///////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////// BEGIN STATECHANGE LOGIC /////////////////////////////////////////
+  /*
+   * Sequentially:
+   *      - If safety thresholds are broken, shutdown.
+   *      - If the maintenance threshold is broken, maintain pressure
+   *      - If the deflation threshold is broken, lower the pressure and start over???
+   *      - Otherwise: Inflate the finger.
+   */
+  if(trueFlex > SAFETY_THRESHOLD_HIGH || trueFlex < SAFETY_THRESHOLD_LOW){
+    emergencyShutoff();
   }
+  
+  if(trueFlex > MAINTENANCE_THRESHOLD){
+    inflating = false;
+    if(trueFlex > DEFLATION_THRESHOLD){
+      deflating = true;
+    } else {
+      deflating = false;
+    }
+  } 
+  
+  else {
+    inflating = true;
+  }
+
+  if (deflating){
+    deflateFinger();
+  } else if (inflating){
+    inflateFinger(PWM);
+  } else {
+    // If not inflating or deflating, then the pressure will be maintained.
+    maintainFingerPressure();
+  }
+  //////////////////////////////// END STATECHANGE LOGIC ////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

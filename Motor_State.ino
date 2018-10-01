@@ -15,7 +15,6 @@ void motorStateSetup() {
   digitalWrite(m_state_off, LOW );
   digitalWrite(m_state_on, LOW );
   digitalWrite(m_state_emergency, LOW );
-
 }
 
 void motorTestingLoop() {
