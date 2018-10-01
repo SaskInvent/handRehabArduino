@@ -5,7 +5,7 @@
  * OR with the ??? flow control ??? valves as neccessary.
  */
 void inflateFinger(int localPWM){
-  Serial.println("inflating finger now. Local PWM: " + String(localPWM));
+  Serial.print(" inflating finger now. Local PWM: " + String(localPWM) + " -> ");
 }
 
 /*
@@ -13,7 +13,7 @@ void inflateFinger(int localPWM){
  * OR with the ??? flow control ??? valves as neccessary.
  */
 void deflateFinger(){
-  Serial.println("deflating finger now");
+  Serial.print(" deflating finger now ");
 }
 
 /*
@@ -21,5 +21,5 @@ void deflateFinger(){
  * OR with the ??? flow control ??? valves as neccessary.
  */
 void maintainFingerPressure(){
-  Serial.println("MAINTIAN PRESSURE");
+  Serial.print(" MAINTIAN PRESSURE ");
 }
