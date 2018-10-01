@@ -5,7 +5,7 @@ const int m_state_on = 4; // white
 const int m_state_emergency = 5; // blue
 
 
-void setup() {
+void motorStateSetup() {
   // put your setup code here, to run once
 
   pinMode(m_state_on, OUTPUT );
@@ -18,7 +18,7 @@ void setup() {
 
 }
 
-void loop() {
+void motorTestingLoop() {
   int control = 69; // this will control the lights
 
   switch(control){

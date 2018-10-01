@@ -35,7 +35,6 @@ void initializePins(){
   pinMode(emergencyValve, OUTPUT);
 
   pinMode(MOTOR_FORWARD, OUTPUT); // Takes variable integer values to set the speed of the motor.
-  //pinMode(MOTOR_REVERSE, OUTPUT); // NEVER set to high.  We write this low as a safety measure.
 
   pinMode(button, INPUT); // Used to stop the motor, and release the pressure in the system. ??Confirm with Nelson??
 }
@@ -114,12 +113,13 @@ void setup() {
   digitalWrite(emergencyValve, LOW);
 
   potValue=analogRead(potInput); // 
-  
+
+  // OUTPUT: Tests the initialization of the pins.
   testingSetupOutput();
   
   // This is the command for the calibration in the first 10 seconds. 
-  // This code will be REPLACED by a START button when we can signal condition and hold the calibration of the flex sensor between trials 
-
+  // This code will be REPLACED by a START button when we can signal 
+  // condition and hold the calibration of the flex sensor between trials. 
   /*
    * Calibrates the flex sensor.  
    * Normal series of actions.
@@ -285,5 +285,15 @@ void loop() {
 ////////////////////////////////////////////////////////////////////////////////////////
 /*
  * Should we control the motor or the exhaust flow?
+ * 
+ * 
+ * 50% fist is where the patient should be.
+ * 
+ * Below that range, inflate.
+ * 
+ * At the desired range (50% or 500 something right now, +- a buffer range)
+ * 
+ * 
+ * 
  * 
  */
