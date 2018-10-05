@@ -18,8 +18,11 @@ git version
 git status
 git fetch
 git pull
-git add <path/to/your/files>
+git status
+git add . 
+git status
 git commit -m "<Your commit message here>"
+git status
 git push
 ```
 
