@@ -1,17 +1,9 @@
-
-/*
- * Shows how tabs work.  This is multi-file development.
- */
-void testingModularization(){
-  Serial.println("I'm a module.");
-}
-
-/*
- * Shows that tabs have access to global variables.
- */
-void hasGlobals(){
-  Serial.println(fingerValve);
-}
+///*
+// * Shows that tabs have access to global variables.
+// */
+//void hasGlobals(){
+//  Serial.println(fingerValve);
+//}
 
 /*
  * Guidelines:
@@ -28,12 +20,12 @@ void hasGlobals(){
  * Call in main "void setup()" function to get desired behaviour.
  */
 void testSetup(){
-
+  // Your code here
 }
 
 /*
  * Call in main "void loop()" function to get desired behaviour.
  */
 void testLoop(){
-  
+  // Your code here
 }

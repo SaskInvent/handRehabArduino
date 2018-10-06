@@ -4,8 +4,8 @@
  * STATE: inflate the glove.  Interfaces with either the motor AND pump,  
  * OR with the ??? flow control ??? valves as neccessary.
  */
-void inflateFinger(int localPWM){
-  Serial.print(" inflating finger now. Local PWM: " + String(localPWM) + " -> ");
+void inflateFinger(){
+  Serial.print(" inflating finger now. Local PWM: " + PWM + " -> ");
 }
 
 /*
