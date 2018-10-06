@@ -46,6 +46,18 @@ int emergencyButtonInput; // Reads
 
 int PWM = 0; // Controls motor driver. Value betweem 0-255. GETS MAPPED FROM MAP 0-1023!
 
+
+struct UserProfile {
+  float prefMotorRate;
+  float indexFingerFlex;
+  float middleFingerFlex;
+  float ringFingerFlex;
+  float pinkyFingerFlex;
+  int preferedMode;
+} ;
+
+UserProfile CurrentUserProfile;
+
 ////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////// END INITIALIZING GLOBALS ///////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
