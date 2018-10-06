@@ -1,5 +1,4 @@
-// If the arduinos we are using have persistent EEPROM, these functions will 
-// allow us to manipulate it.
+//  The arduinos we are using have 1024bytes of EEPROM memory.
 //  EEPROM is read or written one byte at a time.  Values between 0-255
 //  can be stored.  
 //  
