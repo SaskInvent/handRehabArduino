@@ -25,9 +25,7 @@ void activateDefaultMode(){
     } else {
       deflating = false;
     }
-  } 
-  
-  else {
+  } else {
     inflating = true;
   }
 
