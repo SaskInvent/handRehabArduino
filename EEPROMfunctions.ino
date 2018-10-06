@@ -8,7 +8,7 @@
 //  We also need to keep the address of any stored values/structs.  In practice should only need to 
 //  store one at a time (one for the current patient)
 
-#include <EEPROM.h>
+
 
 // struct defining the values to store for a user profile.
 //struct UserProfile {
@@ -46,7 +46,8 @@ bool hasPreviousProfile(){
   // the CurrentUserProfile variable is defined in the main program.
   EEPROM.get(0, CurrentUserProfile);
 
-  if(CurrentUserProfile.prefMotorRate != 0 && CurrentUserProfile.indexFingerFlex != 0){
+  if(CurrentUserProfile.ringFingerFlex != 0 && CurrentUserProfile.indexFingerFlex != 0){
+    // This is not the best way to detect a user profile.  Will probably work.
     return true; 
   } else {
     // the intention is to calibrate and ask for user input if 
