@@ -5,7 +5,9 @@
  * OR with the ??? flow control ??? valves as neccessary.
  */
 void inflateFinger(){
-  Serial.print(" inflating finger now. Local PWM: " + PWM + " -> ");
+  Serial.print(" inflating finger now. Local PWM: ");
+  Serial.print(PWM);
+  Serial.print(" -> ");
 }
 
 /*

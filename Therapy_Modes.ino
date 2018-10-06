@@ -35,7 +35,7 @@ void activateDefaultMode(){
     // deflation takes priority over inflating, for safety reasons.
     deflateFinger();
   } else if (inflating){
-    inflateFinger(PWM);
+    inflateFinger();
   } else {
     // If not inflating or deflating, then the pressure will be maintained.
     maintainFingerPressure();
