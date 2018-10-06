@@ -59,8 +59,8 @@ bool hasPreviousProfile(){
 // Store the current user profile.
 // Oct 6th, 2018: REQUIRES TESTING.
 bool storeCurrentProfile(){
-  void* valuePassedIn = EEPROM.put(0, CurrentUserProfile);
-  if((UserProfile*)valuePasedIn.indexFingerFlex == CurrentUserProfile.indexFingerFlex){
+  UserProfile valuePassedIn = EEPROM.put(0, CurrentUserProfile);
+  if(valuePassedIn.indexFingerFlex == CurrentUserProfile.indexFingerFlex){
     // We did indeed store the value.
     return true;
   } else {
