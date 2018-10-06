@@ -109,6 +109,9 @@ void setup() {
   // This is useful for reporting of the potentiometer value as well as the resistance value 
   // of the flex sensor (mapped between 0 and 1023)  
   Serial.begin(9600);
+  while(!Serial){
+    // wait for Serial port to connect.  Needed for native USB port only.
+  }
 
   // Setting the Pinmodes of the arduino, these may be changed later base on the 
   // board that we end up using in future versions 
