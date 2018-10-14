@@ -5,7 +5,7 @@
 
 // Constants for the Flex Sensor and Potentiometer Readings. 
 // This is detailing, the pin numbers that are used for input or output 
-const int potInput = A0; // Analog input 2, potentiometer input.
+const int potInput = A0; // Analog input 0, potentiometer input.
 const int flexInput = A1; // Analog input 1, for flex sensor input.
 const int emergencyValve = 5; // Release valve
 const int fingerValve =  7;  // Regular finger valve
@@ -117,10 +117,6 @@ void setup() {
   // board that we end up using in future versions 
   initializePins();
 
-  
-  digitalWrite(fingerValve, LOW);
-  digitalWrite(emergencyValve, LOW);
-
   potValue=analogRead(potInput); // 
 
   // OUTPUT: Tests the initialization of the pins.
@@ -212,7 +208,7 @@ void loop() {
   switch(therapyMode){
     case defaultMode :
       activateDefaultMode();
-      break;
+    break;
     // More modes can be added here as desired.  Please add a funtion to the Therapy_Modes file
     // to perform the necessary actions as defined by your mode.
   }
