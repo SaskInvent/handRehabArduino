@@ -26,7 +26,10 @@ const int ACCEPTABLE_CALIBRATION_RANGE = 300;  // Calibration is deemed a failur
 // constants defining different therapy modes.  When the value of therapyMode is set
 // to the value of one of these constants, the associated therapyMode will be executed by
 // the switch statement.
-const int defaultMode = 0;
+const int emergencyShutoffMode = 0;
+const int calibrationMode = 1;
+const int defaultMode = 2;
+
 
 int therapyMode; // Change this value to change the mode that the program runs in.
                  // Can be changed at runtime, but a buffering state should be used
@@ -130,8 +133,6 @@ void setup() {
   // This code will be REPLACED by a START emergencyButton when we can signal 
   // condition and hold the calibration of the flex sensor between trials. 
 
-  calibrateFlexSensor();
-
   if (flexSensorHigh - flexSensorLow < ACCEPTABLE_CALIBRATION_RANGE){
     emergencyShutoff();
   }
@@ -210,6 +211,12 @@ void loop() {
   ///////////////////////// BEGIN MODE-CHANGE STATEMENT /////////////////////////////////////////
   
   switch(therapyMode){
+    case emergencyShutoffMode:
+      emergencyShutoff();
+      break;
+    case calibrationMode:
+      calibrateFlexSensor();
+      break;
     case defaultMode :
       activateDefaultMode();
       break;
