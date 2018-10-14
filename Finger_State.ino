@@ -9,6 +9,8 @@ void inflateFinger(){
   Serial.print(" inflating finger now. Local PWM: ");
   Serial.print(PWM);
   Serial.print(" -> ");
+  digitalWrite(fingerValve, LOW); //default state (at LOW) is open valve. 
+  digitalWrite(emergencyValve, HIGH);
 }
 
 /*
@@ -18,6 +20,8 @@ void inflateFinger(){
  // void deflateFinger(int fingerID)
 void deflateFinger(){
   Serial.print(" deflating finger now ");
+  digitalWrite(fingerValve, LOW); //default state (at LOW) is closed valved. 
+  digitalWrite(emergencyValve, LOW);
 }
 
 /*
@@ -26,5 +30,7 @@ void deflateFinger(){
  */
  //void maintainFingerPressure(int fingerID)
 void maintainFingerPressure(){
-  Serial.print(" MAINTIAN PRESSURE ");
+  Serial.print("MAINTIAN PRESSURE");
+  digitalWrite(fingerValve, HIGH);
+  digitalWrite(emergencyValve, HIGH);
 }
