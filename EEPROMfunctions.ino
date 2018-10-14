@@ -47,7 +47,7 @@ bool hasPreviousProfile(){
   EEPROM.get(0, CurrentUserProfile);
 
   if(CurrentUserProfile.ringFingerFlex != 0 && CurrentUserProfile.indexFingerFlex != 0){
-    // This is not the best way to detect a user profile.  Will probably work.
+    // TODO: This is not the best way to detect a user profile.  Will probably work.
     return true; 
   } else {
     // the intention is to calibrate and ask for user input if 
@@ -57,6 +57,8 @@ bool hasPreviousProfile(){
 }
 
 // Store the current user profile.
+// TODO: Currently storing user profile starting at the 0 byte.  May have to change and keep track of 
+// next available memory address.
 // Oct 6th, 2018: REQUIRES TESTING.
 bool storeCurrentProfile(){
   UserProfile valuePassedIn = EEPROM.put(0, CurrentUserProfile);
