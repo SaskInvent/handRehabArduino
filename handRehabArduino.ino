@@ -90,6 +90,11 @@ void calibrateFlexSensor(){
     }
     delay(100);
   }
+  
+  if (flexSensorHigh - flexSensorLow < ACCEPTABLE_CALIBRATION_RANGE){
+    // Could just continue calibration and print an error.
+    emergencyShutoff();
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -133,10 +138,8 @@ void setup() {
   // This code will be REPLACED by a START emergencyButton when we can signal 
   // condition and hold the calibration of the flex sensor between trials. 
 
-  if (flexSensorHigh - flexSensorLow < ACCEPTABLE_CALIBRATION_RANGE){
-    emergencyShutoff();
-  }
-  
+  // TEMP/TESTING
+  therapyMode = calibrationMode;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -223,6 +226,9 @@ void loop() {
     // More modes can be added here as desired.  Please add a funtion to the Therapy_Modes file
     // to perform the necessary actions as defined by your mode.
   }
+
+  // TEMP/TESTING
+  therapyMode = defaultMode;
   
   //////////////////////////// END MODE-CHANGE STATEMENT ////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////////
