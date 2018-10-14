@@ -8,7 +8,7 @@
 
 // Constants for the Flex Sensor and Potentiometer Readings. 
 // This is detailing, the pin numbers that are used for input or output 
-const int potInput = A0; // Analog input 2, potentiometer input.
+const int potInput = A0; // Analog input 0, potentiometer input.
 const int flexInput = A1; // Analog input 1, for flex sensor input.
 const int emergencyValve = 5; // Release valve
 const int fingerValve =  7;  // Regular finger valve
@@ -29,7 +29,10 @@ const int ACCEPTABLE_CALIBRATION_RANGE = 300;  // Calibration is deemed a failur
 // constants defining different therapy modes.  When the value of therapyMode is set
 // to the value of one of these constants, the associated therapyMode will be executed by
 // the switch statement.
-const int defaultMode = 0;
+const int emergencyShutoffMode = 0;
+const int calibrationMode = 1;
+const int defaultMode = 2;
+
 
 int therapyMode; // Change this value to change the mode that the program runs in.
                  // Can be changed at runtime, but a buffering state should be used
@@ -102,6 +105,11 @@ void calibrateFlexSensor(){
     }
     delay(100);
   }
+  
+  if (flexSensorHigh - flexSensorLow < ACCEPTABLE_CALIBRATION_RANGE){
+    // Could just continue calibration and print an error.
+    emergencyShutoff();
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -134,10 +142,6 @@ void setup() {
   // board that we end up using in future versions 
   initializePins();
 
-  
-  digitalWrite(fingerValve, LOW);
-  digitalWrite(emergencyValve, LOW);
-
   potValue=analogRead(potInput); // 
 
   // OUTPUT: Tests the initialization of the pins.
@@ -147,12 +151,8 @@ void setup() {
   // This code will be REPLACED by a START emergencyButton when we can signal 
   // condition and hold the calibration of the flex sensor between trials. 
 
-  calibrateFlexSensor();
-
-  if (flexSensorHigh - flexSensorLow < ACCEPTABLE_CALIBRATION_RANGE){
-    emergencyShutoff();
-  }
-  
+  // TEMP/TESTING
+  therapyMode = calibrationMode;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -227,12 +227,21 @@ void loop() {
   ///////////////////////// BEGIN MODE-CHANGE STATEMENT /////////////////////////////////////////
   
   switch(therapyMode){
+    case emergencyShutoffMode:
+      emergencyShutoff();
+      break;
+    case calibrationMode:
+      calibrateFlexSensor();
+      break;
     case defaultMode :
       activateDefaultMode();
-      break;
+    break;
     // More modes can be added here as desired.  Please add a funtion to the Therapy_Modes file
     // to perform the necessary actions as defined by your mode.
   }
+
+  // TEMP/TESTING
+  therapyMode = defaultMode;
   
   //////////////////////////// END MODE-CHANGE STATEMENT ////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////////

@@ -7,7 +7,7 @@
  *            not desirable, so we avoid using it.
  */
 void emergencyShutoff(){
-  while(true){
+  while(therapyMode == emergencyShutoffMode){
     Serial.println("Shuting off the motor");
     // motorOff();
     delay(100);

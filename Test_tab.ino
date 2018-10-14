@@ -20,12 +20,12 @@
  * Call in main "void setup()" function to get desired behaviour.
  */
 void testSetup(){
-
+  // Your code here
 }
 
 /*
  * Call in main "void loop()" function to get desired behaviour.
  */
 void testLoop(){
-  
+  // Your code here
 }
