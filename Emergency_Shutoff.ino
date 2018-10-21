@@ -1,6 +1,4 @@
 
-/*
- * The safest thing to do is shutoff the motor and pump, then open the valves.
  * We do this in a while loop forever to ensure the device performs these tasks.
  * 
  * IMPORTANT: Using exit(); locks up the arduino in the current state.  This is 
@@ -9,12 +7,9 @@
 void emergencyShutoff(){
   while(therapyMode == emergencyShutoffMode){
     Serial.println("Shuting off the motor");
-    // motorOff();
+    motorOff();
     delay(100);
-    Serial.println("Opening finger valves");
-    // openAllFingerValves();
-    delay(100);
-    Serial.println("Opening emergency release valve");
-    // openEmergencyReleaseValve();
-  }
+    Serial.println("Opening finger and emergency valves.");
+    deflateFinger();
+    }
 }

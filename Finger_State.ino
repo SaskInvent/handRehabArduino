@@ -20,7 +20,7 @@ void inflateFinger(){
  // void deflateFinger(int fingerID)
 void deflateFinger(){
   Serial.print(" deflating finger now ");
-  digitalWrite(fingerValve, LOW); //default state (at LOW) is closed valved. 
+  digitalWrite(fingerValve, LOW); //default state (at LOW) is open valved. 
   digitalWrite(emergencyValve, LOW);
 }
 
