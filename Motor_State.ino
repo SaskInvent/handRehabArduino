@@ -1,7 +1,7 @@
 
 void motorOff(){
   digitalWrite(MOTOR_FORWARD, LOW);
-  // all the valves is off. 
+  // all the valves are off. 
   // all the lights will be off
 }
 
