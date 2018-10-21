@@ -8,7 +8,7 @@
 
 // Constants for the Flex Sensor and Potentiometer Readings. 
 // This is detailing, the pin numbers that are used for input or output 
-const int potInput = A0; // Analog input 2, potentiometer input.
+const int potInput = A0; // Analog input 0, potentiometer input.
 const int flexInput = A1; // Analog input 1, for flex sensor input.
 const int emergencyValve = 5; // Release valve
 const int fingerValve =  7;  // Regular finger valve
@@ -49,9 +49,18 @@ int emergencyButtonInput; // Reads
 
 int PWM = 0; // Controls motor driver. Value betweem 0-255. GETS MAPPED FROM MAP 0-1023!
 
+/////////////////////////// struct definitions /////////////////////////////////////////
 
+/*
+ * UserProfile:
+ *      Data type to store a users last used state.
+ *      Currently only stores one profile.  This should
+ *      be enough since only one patient will be using
+ *      the device at a time.  The UserProfiles are also
+ *      fairly simple and easy to setup.
+ * 
+ */
 typedef struct {
-  float prefMotorRate;
   float indexFingerFlex;
   float middleFingerFlex;
   float ringFingerFlex;
@@ -59,7 +68,8 @@ typedef struct {
   int preferedMode;
 } UserProfile ;
 
-UserProfile CurrentUserProfile;
+UserProfile CurrentUserProfile; // Global var.  Will either be read from memory or
+                                // initialized by the patient.
 
 ////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////// END INITIALIZING GLOBALS ///////////////////////////////////
