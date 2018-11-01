@@ -48,7 +48,7 @@ bool hasPreviousProfile(){
 
   if(CurrentUserProfile.ringFingerFlex != 0 && CurrentUserProfile.indexFingerFlex != 0){
     // TODO: This is not the best way to detect a user profile.  Will probably work.
-    return true; 
+    return true;
   } else {
     // the intention is to calibrate and ask for user input if 
     // no previous profile is detected.
