@@ -1,22 +1,25 @@
+#include <Servo.h> //include a library to control the servo. Go to Sketch > Include Library > Manage Library. Search for and install Servo
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// BEGIN INITIALIZING GLOBALS ///////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
+Servo servoControl;  // create servo object to control a servo
+
 // Constants for the Flex Sensor and Potentiometer Readings. 
 // This is detailing, the pin numbers that are used for input or output 
 const int potInput = A0; // Analog input 0, potentiometer input.
 const int flexInput = A1; // Analog input 1, for flex sensor input.
-const int emergencyValve = 5; // Release valve
+const int emergencyValve = 5; // Emergency release valve
 const int fingerValve =  7;  // Regular finger valve
 const int emergencyButton = 8; // Emergency release button.
-const int MOTOR_FORWARD = 9; // forward motor control
+const int MOTOR_FORWARD = 9; // forward motor control 
 
 // constants for automated flex sensor threshold logic and automated emergency shutoff.
 const int SAFETY_THRESHOLD_HIGH = 1000;   // All values compared to input from trueFlex.
 const int SAFETY_THRESHOLD_LOW = -100;    //
-const int MAINTENANCE_THRESHOLD = 500;    // Used in the main "void loop()" function.
-const int DEFLATION_THRESHOLD = 650;      //
+const int MAINTENANCE_THRESHOLD = 200;    // Used in the main "void loop()" function.
+const int TOLERANCE = 200;      //The range during which pressure will be maintained
 const int ACCEPTABLE_CALIBRATION_RANGE = 300;  // Calibration is deemed a failure if we 
                                                // do not have a minimum range between high
                                                // and low sensor readings.  Currently 
@@ -46,6 +49,7 @@ int flexValue; // The value read from the flex sensor.
 int trueFlex; // Will be the remapped value read from the flex sensor.
 int potValue; // The potentiometer value read.
 int emergencyButtonInput; // Reads 
+int angleControl; //takes value from 0 to 180 (need to be remapped) to control the opening of the exhaust valve
 
 int PWM = 0; // Controls motor driver. Value betweem 0-255. GETS MAPPED FROM MAP 0-1023!
 
@@ -68,7 +72,7 @@ void initializePins(){
   pinMode(MOTOR_FORWARD, OUTPUT); // Takes variable integer values to set the speed of the motor.
 
   pinMode(emergencyButton, INPUT); // Used to stop the motor, and release the pressure in the system.
-
+  servoControl.attach(10); //Attach the Servo to Pin 10
 }
 
 /*
@@ -94,6 +98,8 @@ void calibrateFlexSensor(){
   if (flexSensorHigh - flexSensorLow < ACCEPTABLE_CALIBRATION_RANGE){
     // Could just continue calibration and print an error.
     emergencyShutoff();
+  } else{
+    motorOn(); //after sucessful calibration, start motor
   }
 }
 
@@ -176,7 +182,7 @@ void loop() {
   // The map function is used to increase our resolution from whatever the 
   // calibrated range is to the maximum possible range (0-1023, based on 8 bit 
   // resolution of arduino uno)
-  flexValue=analogRead(flexInput);
+  flexValue= analogRead(flexInput);
 
   // The flex value remapped to take advantage of our full range of possible values.  
   // NOTE: This can be less than 0 or higher than 1023 in some cases.  This is due to 
@@ -185,7 +191,7 @@ void loop() {
 
   // Workaround, analogue synthesizer.  Simulate voltages between 0V and 5V
   // Control the motor speed.  
-  PWM = map(analogRead(potInput), 0, 1023, 0, 255); // Maps the value of potentiometer to PWM ranges
+  PWM = map(potValue, 0, 1023, 0, 255); // Maps the value of potentiometer to PWM ranges
 
   /////////////////////////////// END READING SYSTEM INPUT /////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////////////

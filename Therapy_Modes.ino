@@ -18,9 +18,9 @@ void activateDefaultMode(){
     emergencyShutoff();
   }
   
-  if(trueFlex > MAINTENANCE_THRESHOLD){
+  if(trueFlex > MAINTENANCE_THRESHOLD-TOLERANCE){
     inflating = false;
-    if(trueFlex > DEFLATION_THRESHOLD){
+    if(trueFlex > MAINTENANCE_THRESHOLD+TOLERANCE){
       deflating = true;
     } else {
       deflating = false;
