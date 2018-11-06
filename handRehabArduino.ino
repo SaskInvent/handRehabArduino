@@ -1,4 +1,6 @@
-#include <Servo.h> //include a library to control the servo. Go to Sketch > Include Library > Manage Library. Search for and install Servo
+//If not properly set up, go to Sketch > Include Library > Manage Library. Search for and install required library
+#include <Wire.h> //library to control I2C bus from the flow sensor
+#include <Servo.h> //library to control the servo
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// BEGIN INITIALIZING GLOBALS ///////////////////////////////////
