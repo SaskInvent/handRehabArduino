@@ -1,4 +1,4 @@
-//If not properly set up, go to Sketch > Include Library > Manage Library. Search for and install required library
+//If not properly set up, go to Sketch > Include Library > Manage Library. Search for and install required libraries:
 #include <Wire.h> //library to control I2C bus from the flow sensor
 #include <Servo.h> //library to control the servo
 
@@ -100,7 +100,7 @@ void calibrateFlexSensor(){
   if (flexSensorHigh - flexSensorLow < ACCEPTABLE_CALIBRATION_RANGE){
     // Could just continue calibration and print an error.
     emergencyShutoff();
-  } else{
+  }else{
     motorOn(); //after sucessful calibration, start motor
   }
 }
