@@ -137,7 +137,10 @@ void setup() {
 
   // OUTPUT: Tests the initialization of the pins.
   testingSetupOutput();
-  
+
+  // TEMP/TESTING
+  therapyMode = calibrationMode;
+    
   // This is the command for the calibration in the first 10 seconds. 
   // This code will be REPLACED by a START emergencyButton when we can signal 
   // condition and hold the calibration of the flex sensor between trials. 
@@ -214,9 +217,6 @@ void loop() {
   ///////////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// BEGIN MODE-CHANGE STATEMENT /////////////////////////////////////////
 
-  // TEMP/TESTING
-  therapyMode = calibrationMode;
-  
   switch(therapyMode){
     case emergencyShutoffMode:
       emergencyShutoff();
