@@ -141,9 +141,6 @@ void setup() {
   // This is the command for the calibration in the first 10 seconds. 
   // This code will be REPLACED by a START emergencyButton when we can signal 
   // condition and hold the calibration of the flex sensor between trials. 
-
-  // TEMP/TESTING
-  therapyMode = calibrationMode;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -216,6 +213,9 @@ void loop() {
 
   ///////////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// BEGIN MODE-CHANGE STATEMENT /////////////////////////////////////////
+
+  // TEMP/TESTING
+  therapyMode = calibrationMode;
   
   switch(therapyMode){
     case emergencyShutoffMode:
