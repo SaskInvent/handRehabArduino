@@ -1,4 +1,4 @@
-//If not properly set up, go to Sketch > Include Library > Manage Library. Search for and install required libraries:
+// If not properly set up, go to Sketch > Include Library > Manage Library. Search for and install required libraries:
 #include <Wire.h> //library to control I2C bus from the flow sensor
 #include <Servo.h> //library to control the servo
 
