@@ -10,7 +10,6 @@ Servo servoControl;  // create servo object to control a servo
 
 // Constants for the Flex Sensor and Potentiometer Readings. 
 // This is detailing, the pin numbers that are used for input or output 
-const int potInput = A0; // Analog input 0, potentiometer input.
 const int flexInput = A1; // Analog input 1, for flex sensor input.
 const int emergencyValve = 5; // Emergency release valve
 const int fingerValve =  7;  // Regular finger valve
@@ -49,7 +48,6 @@ int flexSensorHigh = 0; // INITIALIZATION: Will be the HIGHER number after the c
 
 int flexValue; // The value read from the flex sensor.
 int trueFlex; // Will be the remapped value read from the flex sensor.
-int potValue; // The potentiometer value read.
 int emergencyButtonInput; // Reads 
 int angleControl; //takes value from 0 to 180 (need to be remapped) to control the opening of the exhaust valve
 
@@ -89,7 +87,7 @@ void calibrateFlexSensor(){
     if (flexValue>flexSensorHigh) {
       flexSensorHigh = flexValue;
     }
-    if (flexValue<flexSensorLow) {
+    if (flexValue<flexSensorLow) {  
       if (flexValue>100){
         flexSensorLow = flexValue;
       }
@@ -132,8 +130,6 @@ void setup() {
   // Setting the Pinmodes of the arduino, these may be changed later base on the 
   // board that we end up using in future versions 
   initializePins();
-
-  potValue=analogRead(potInput); // 
 
   // OUTPUT: Tests the initialization of the pins.
   testingSetupOutput();
@@ -193,8 +189,7 @@ void loop() {
 
   // Workaround, analogue synthesizer.  Simulate voltages between 0V and 5V
   // Control the motor speed.  
-  PWM = map(potValue, 0, 1023, 0, 255); // Maps the value of potentiometer to PWM ranges
-
+  
   /////////////////////////////// END READING SYSTEM INPUT /////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////////////
 
