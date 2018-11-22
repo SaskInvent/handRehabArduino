@@ -7,8 +7,6 @@ void testingSetupOutput(){
 
   Serial.print("Integer value of A1:  ");
   Serial.println(flexInput);
-  Serial.print("Integer value of A2:  ");
-  Serial.println(potInput);
   // Pot value, after read.
   Serial.print("Integer Value of potValue: ");
   Serial.println(potValue); // maybe move this to the loop so potentiometer can be altered without 

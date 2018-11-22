@@ -5,11 +5,11 @@
  * the button is pressed.
  */
 void emergencyShutoff(){
-  while(therapyMode == emergencyShutoffMode){
+  while(true){
     Serial.println("Shuting off the motor");
     motorOff();
     delay(100);
     Serial.println("Opening finger and emergency valves.");
-    deflateFinger();
-    }
+    deflateFinger();  
+  }
 }

@@ -8,10 +8,10 @@
 void inflateFinger(){
   Serial.print(" inflating finger now. Local PWM: ");
   Serial.print(PWM);
-  Serial.print(" -> ");
-  servoControl.write(angleControl); //Control the exhaust valve to determine the speed of finger inflation
-  digitalWrite(fingerValve, LOW); //default state (at LOW) is open valve. 
-  digitalWrite(emergencyValve, HIGH);
+  Serial.print(angleControl);
+  servoControl.write(angleControl); // Control the exhaust valve to determine the speed of finger inflation
+  digitalWrite(fingerValve, LOW); // default state (at LOW) is open valve. 
+  digitalWrite(emergencyValve, HIGH); // HIGH is closed.
 }
 
 /*
