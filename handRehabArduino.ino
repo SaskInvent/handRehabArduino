@@ -35,6 +35,7 @@ const int ACCEPTABLE_CALIBRATION_RANGE = 300;  // Calibration is deemed a failur
 // the switch statement.
 const int calibrationMode = 0;
 const int defaultMode = 1;
+const int testingDerivative = 2;
 
 
 int therapyMode; // Change this value to change the mode that the program runs in.
@@ -122,6 +123,8 @@ void calibrateFlexSensor(){
  * input and output pins.  
  */
 void setup() {
+  // TEMP/TESTING
+  derivativeSetup();
   // These commands are for the serial monitor, which can be found under tools tab up top.
   // This is useful for reporting of the potentiometer value as well as the resistance value 
   // of the flex sensor (mapped between 0 and 1023)  
@@ -144,7 +147,7 @@ void setup() {
   // condition and hold the calibration of the flex sensor between trials. 
 
   // TEMP/TESTING
-  therapyMode = calibrationMode;
+//  therapyMode = calibrationMode;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -166,6 +169,7 @@ void setup() {
 ////////////////////////////////////////////////////////////////////////////////////////
 
 void loop() {
+  
   /////////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////// BEGIN EMERGENCY SHUTOFF ////////////////////////////////////////////
   // Returns 0 or 1.                                                                        ///
@@ -225,12 +229,16 @@ void loop() {
     case defaultMode :
       activateDefaultMode();
       break;
+    case testingDerivative:
+      // TEMP/TESTING
+      testingTimeFunctions();
+      break;
     // More modes can be added here as desired.  Please add a funtion to the Therapy_Modes file
     // to perform the necessary actions as defined by your mode.
   }
 
   // TEMP/TESTING
-  therapyMode = defaultMode;
+  therapyMode = testingDerivative;
 
 //  testingTimeFunctions();
   
