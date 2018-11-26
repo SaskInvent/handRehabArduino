@@ -17,10 +17,10 @@ const int emergencyButton = 8; // Emergency release button.
 const int MOTOR_FORWARD = 9; // forward motor control 
 
 // constants for automated flex sensor threshold logic and automated emergency shutoff.
-const int SAFETY_THRESHOLD_HIGH = 1000;   // All values compared to input from trueFlex.
-const int SAFETY_THRESHOLD_LOW = -100;    //
+const int SAFETY_THRESHOLD_HIGH = 10000;   // All values compared to input from trueFlex.
+const int SAFETY_THRESHOLD_LOW = -1000;    //
 const int MAINTENANCE_THRESHOLD = 200;    // Used in the main "void loop()" function.
-const int TOLERANCE = 200;      //The range during which pressure will be maintained
+const int TOLERANCE = 100;      //The range during which pressure will be maintained
 const int ACCEPTABLE_CALIBRATION_RANGE = 300;  // Calibration is deemed a failure if we 
                                                // do not have a minimum range between high
                                                // and low sensor readings.  Currently 
@@ -30,7 +30,6 @@ const int ACCEPTABLE_CALIBRATION_RANGE = 300;  // Calibration is deemed a failur
 // constants defining different therapy modes.  When the value of therapyMode is set
 // to the value of one of these constants, the associated therapyMode will be executed by
 // the switch statement.
-const int emergencyShutoffMode = 0;
 const int calibrationMode = 1;
 const int defaultMode = 2;
 
@@ -213,15 +212,12 @@ void loop() {
   ///////////////////////// BEGIN MODE-CHANGE STATEMENT /////////////////////////////////////////
 
   switch(therapyMode){
-    case emergencyShutoffMode:
-      emergencyShutoff();
-      break;
     case calibrationMode:
       calibrateFlexSensor();
       break;
     case defaultMode :
       activateDefaultMode();
-    break;
+      break;
     // More modes can be added here as desired.  Please add a funtion to the Therapy_Modes file
     // to perform the necessary actions as defined by your mode.
   }

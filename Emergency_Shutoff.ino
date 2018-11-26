@@ -5,7 +5,7 @@
  * the button is pressed.
  */
 void emergencyShutoff(){
-  while(therapyMode == emergencyShutoffMode){
+  while(true){
     Serial.println("Shuting off the motor");
     motorOff();
     delay(100);

@@ -19,14 +19,14 @@ void activateDefaultMode(){
   }
   
   if(trueFlex > MAINTENANCE_THRESHOLD-TOLERANCE){
-    inflating = false;
+    deflating = false;
     if(trueFlex > MAINTENANCE_THRESHOLD+TOLERANCE){
-      deflating = true;
+      inflating = true;
     } else {
-      deflating = false;
+      inflating = false;
     }
   } else {
-    inflating = true;
+    deflating = true;
   }
 
   if (deflating){
