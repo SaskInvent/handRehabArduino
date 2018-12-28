@@ -17,7 +17,10 @@ void activateDefaultMode(){
   if(trueFlex > SAFETY_THRESHOLD_HIGH || trueFlex < SAFETY_THRESHOLD_LOW){
     emergencyShutoff();
   }
-  
+
+  // TODO: Review and test with team.
+  // This logic needs to be clarified and varified
+  // before proceeding to more complex behaviour.
   if(trueFlex > MAINTENANCE_THRESHOLD-TOLERANCE){
     deflating = false;
     if(trueFlex > MAINTENANCE_THRESHOLD+TOLERANCE){

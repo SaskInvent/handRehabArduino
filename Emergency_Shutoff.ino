@@ -11,5 +11,5 @@ void emergencyShutoff(){
     delay(100);
     Serial.println("Opening finger and emergency valves.");
     deflateFinger();
-    }
+  }
 }
