@@ -14,7 +14,7 @@ const int flexInput = A1; // Analog input 1, for flex sensor input.
 const int emergencyValve = 5; // Emergency release valve
 const int fingerValve =  7;  // Regular finger valve
 const int emergencyButton = 8; // Emergency release button.
-const int MOTOR_FORWARD = 9; // forward motor control 
+const int MOTOR_FORWARD = 9; // forward motor control
 
 // constants for automated flex sensor threshold logic and automated emergency shutoff.
 const int SAFETY_THRESHOLD_HIGH = 1000;   // All values compared to input from trueFlex.
@@ -212,6 +212,8 @@ void loop() {
   ///////////////////////// BEGIN MODE-CHANGE STATEMENT /////////////////////////////////////////
 
   switch(therapyMode){
+    case idleMode:
+      break;
     case calibrationMode:
       calibrateFlexSensor();
       break;
