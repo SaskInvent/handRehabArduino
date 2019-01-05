@@ -30,8 +30,9 @@ const int ACCEPTABLE_CALIBRATION_RANGE = 300;  // Calibration is deemed a failur
 // constants defining different therapy modes.  When the value of therapyMode is set
 // to the value of one of these constants, the associated therapyMode will be executed by
 // the switch statement.
-const int calibrationMode = 0;
-const int defaultMode = 1;
+const int idleMode = 0;
+const int calibrationMode = 1;
+const int defaultMode = 2;
 
 
 int therapyMode; // Change this value to change the mode that the program runs in.
@@ -78,24 +79,59 @@ void initializePins(){
  * Right now this runs for 10 seconds at startup.
  */
 void calibrateFlexSensor(){
-  while (millis() <10000){
+  // Temporary calibration variables, allows restart and cancel of calibration.
+  int tempFlexSensorHigh = 0;
+  int tempFlexSensorLow = 1023;
+  // TODO: Change the while loop statement, we will calibrate until the user says not to.
+  while (!Serial.available()){
     flexValue=analogRead(flexInput);
     // OUTPUT: Testing calibration.
     testCalibrationOutput();
     
-    if (flexValue>flexSensorHigh) {
-      flexSensorHigh = flexValue;
+    if (flexValue>tempFlexSensorHigh) {
+      tempFlexSensorHigh = flexValue;
     }
-    if (flexValue<flexSensorLow) {  
+    if (flexValue<tempFlexSensorLow) {  
       if (flexValue>100){
-        flexSensorLow = flexValue;
+        tempFlexSensorLow = flexValue;
       }
     }
     delay(100);
   }
   
+  char rpiCalInput;
+  
+  // TEMP/TESTING
+  if(!Serial.available()){
+    Serial.println("Serial not available on exiting calibration");
+    emergencyShutoff(); 
+  } else {
+    rpiCalInput = Serial.read();
+    // TEMP/TESTING
+    Serial.print("RPI CAL INPUT RECIEVED: ");
+    Serial.println(rpiCalInput);
+  }
+  
+  // If we recieve the char 'a', accept the new calibration.
+  if(rpiCalInput == 'a'){
+     flexSensorLow = tempFlexSensorLow;
+     flexSensorHigh = tempFlexSensorHigh;
+  } else if(rpiCalInput == 'r'){
+    // If we recieve the char 'r', restart the calibration process.
+    calibrateFlexSensor();
+  } else if(rpiCalInput == 'c'){
+    // If we recieve the char 'c', cancel the calibration process, and revert to the old cal.
+    therapyMode = 0;
+    return;
+  } else {
+    // Unexpected Serial input.  IF THIS EXECUTES IT IS A BUG!  
+    Serial.println("UNEXPECTED SERIAL INPUT DURING CALIBRATION.  ABORTING.");
+    emergencyShutoff();
+  }
+  
   if (flexSensorHigh - flexSensorLow < ACCEPTABLE_CALIBRATION_RANGE){
     // Could just continue calibration and print an error.
+    Serial.println("Rejected calibration. \n\t REASON: Range to small.  Please retry.");
     emergencyShutoff();
   }else{
     motorOn(); //after sucessful calibration, start motor
@@ -133,9 +169,7 @@ void setup() {
   // OUTPUT: Tests the initialization of the pins.
   testingSetupOutput();
 
-  // TEMP/TESTING
-  therapyMode = calibrationMode;
-    
+  therapyMode = idleMode;
   // This is the command for the calibration in the first 10 seconds. 
   // This code will be REPLACED by a START emergencyButton when we can signal 
   // condition and hold the calibration of the flex sensor between trials. 
@@ -206,8 +240,23 @@ void loop() {
   // motor, pump, and valves as required.  This adheres to the principle of least surprise.
   // digitalWrite(emergencyValve, HIGH);
 
+  ///////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////// BEGIN READ SERIAL INPUT ////////////////////////////////////////
   
-
+  if(Serial.available()){
+    therapyMode = 1 * (Serial.read() - '0');
+    // TEMP/TESTING
+    if(therapyMode < 0 || therapyMode > 10){
+      Serial.println("Don't use that button");
+      emergencyShutoff(); 
+    }
+    Serial.print("Changed Therapy Mode:");
+    Serial.println(therapyMode); 
+  }
+  
+  /////////////////////////////// END READ SERIAL INPUT /////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////////
+  
   ///////////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// BEGIN MODE-CHANGE STATEMENT /////////////////////////////////////////
 
@@ -223,9 +272,6 @@ void loop() {
     // More modes can be added here as desired.  Please add a funtion to the Therapy_Modes file
     // to perform the necessary actions as defined by your mode.
   }
-
-  // TEMP/TESTING
-  therapyMode = defaultMode;
   
   //////////////////////////// END MODE-CHANGE STATEMENT ////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////////

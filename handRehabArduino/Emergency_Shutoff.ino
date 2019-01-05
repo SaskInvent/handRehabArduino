@@ -11,5 +11,12 @@ void emergencyShutoff(){
     delay(100);
     Serial.println("Opening finger and emergency valves.");
     deflateFinger();
+    if(Serial.available()){
+      char emergencyInput = Serial.read();
+      if(emergencyInput == 'R'){
+        therapyMode = 0;
+        return;
+      }
+    }
   }
 }
