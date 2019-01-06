@@ -53,6 +53,8 @@ void calibrateFlexSensor(){
   }
   
   if (flexSensorHigh - flexSensorLow < ACCEPTABLE_CALIBRATION_RANGE){
+    flexSensorHigh = INIT_FLEX_HIGH;
+    flexSensorLow = INIT_FLEX_LOW;
     // Could just continue calibration and print an error.
     Serial.println("Rejected calibration. \n\t REASON: Range to small.  Please retry.");
     emergencyShutoff();

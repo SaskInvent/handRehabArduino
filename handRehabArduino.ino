@@ -42,9 +42,11 @@ int therapyMode; // Change this value to change the mode that the program runs i
 // These constants are used for calibrating the flex sensor at the start of the trials. 
 // These will be eventually replaced when we can
 // hold a consistant calibration between trails (aka signal conditioning).
-int flexSensorLow = 1023; // INITIALIZATION: This number will be the lower of the 2 after 
+const int INIT_FLEX_LOW = 1023;
+const int INIT_FLEX_HIGH = 0;
+int flexSensorLow = INIT_FLEX_LOW; // INITIALIZATION: This number will be the lower of the 2 after 
                           // the calibration loop.
-int flexSensorHigh = 0; // INITIALIZATION: Will be the HIGHER number after the calibration loop.
+int flexSensorHigh = INIT_FLEX_HIGH; // INITIALIZATION: Will be the HIGHER number after the calibration loop.
 
 int flexValue; // The value read from the flex sensor.
 int trueFlex; // Will be the remapped value read from the flex sensor.
