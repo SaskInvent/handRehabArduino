@@ -13,6 +13,8 @@
 void activateInflateMode(){
   bool deflating = false; // TEMP: Flag that sets the deflating state.
   bool inflating = false; // TEMP: Flag that sets the inflating state.
+
+  motorOn();
   
   if(trueFlex > SAFETY_THRESHOLD_HIGH || trueFlex < SAFETY_THRESHOLD_LOW){
     emergencyShutoff();
@@ -50,8 +52,8 @@ void activateInflateMode(){
  *   - open the valves
  *   - and wait.
  */
-void activateIdelMode(){
+void activateIdleMode(){
   motorOff();
   
-  
+  // TODO: 
 }

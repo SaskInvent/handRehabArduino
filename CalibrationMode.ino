@@ -1,5 +1,6 @@
 
 void calibrateFlexSensor(){
+  motorOff();
   // Temporary calibration variables, allows restart and cancel of calibration.
   int tempFlexSensorHigh = 0;
   int tempFlexSensorLow = 1023;
