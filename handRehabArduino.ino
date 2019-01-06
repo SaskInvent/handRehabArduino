@@ -11,8 +11,8 @@ Servo servoControl;  // create servo object to control a servo
 // Constants for the Flex Sensor and Potentiometer Readings. 
 // This is detailing, the pin numbers that are used for input or output 
 const int flexInput = A1; // Analog input 1, for flex sensor input.
-const int emergencyValve = 5; // Emergency release valve
-const int fingerValve =  7;  // Regular finger valve
+const int fingerValve =  5;  // Regular finger valve
+const int emergencyValve = 7; // Emergency release valve
 const int emergencyButton = 8; // Emergency release button.
 const int MOTOR_FORWARD = 9; // forward motor control
 
