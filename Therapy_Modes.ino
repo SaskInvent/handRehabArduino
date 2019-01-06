@@ -1,6 +1,6 @@
 
 /*
- * Default therapy behaviour/mode.  Initializes the designated fingers to %50 of the calibrated
+ * Inflation therapy behaviour/mode.  Initializes the designated fingers to %50 of the calibrated
  * flex and maintains this state automatically unless there is an emergency, in which case
  * the emergency shutoff takes over.
  * 
@@ -41,4 +41,17 @@ void activateInflateMode(){
     // If not inflating or deflating, then the pressure will be maintained.
     maintainFingerPressure();
   }
+}
+
+
+/**
+ * Mode to: 
+ *   - shut off the motor
+ *   - open the valves
+ *   - and wait.
+ */
+void activateIdelMode(){
+  motorOff();
+  
+  
 }

@@ -188,6 +188,7 @@ void loop() {
 
   switch(therapyMode){
     case idleMode:
+      activateIdleMode();
       break;
     case calibrationMode:
       calibrateFlexSensor();
