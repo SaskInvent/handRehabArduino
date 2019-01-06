@@ -32,7 +32,7 @@ const int ACCEPTABLE_CALIBRATION_RANGE = 300;  // Calibration is deemed a failur
 // the switch statement.
 const int idleMode = 0;
 const int calibrationMode = 1;
-const int defaultMode = 2;
+const int inflateMode = 2;
 
 
 int therapyMode; // Change this value to change the mode that the program runs in.
@@ -116,6 +116,8 @@ void calibrateFlexSensor(){
   if(rpiCalInput == 'a'){
      flexSensorLow = tempFlexSensorLow;
      flexSensorHigh = tempFlexSensorHigh;
+     therapyMode = 0;
+     return;
   } else if(rpiCalInput == 'r'){
     // If we recieve the char 'r', restart the calibration process.
     calibrateFlexSensor();
@@ -266,8 +268,8 @@ void loop() {
     case calibrationMode:
       calibrateFlexSensor();
       break;
-    case defaultMode :
-      activateDefaultMode();
+    case inflateMode :
+      activateInflateMode();
       break;
     // More modes can be added here as desired.  Please add a funtion to the Therapy_Modes file
     // to perform the necessary actions as defined by your mode.

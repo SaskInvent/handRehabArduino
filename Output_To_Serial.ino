@@ -10,14 +10,14 @@ void testingSetupOutput(){
 /*
  * Print calibration output to the console.
  */
-void testCalibrationOutput(){
+void testCalibrationOutput(int calFlexLow, int calFlexHigh){
   Serial.print("Flex value: ");
   Serial.print(flexValue);
   Serial.print("  Calibrating flex sensor:");
   Serial.print("min:");
-  Serial.print(flexSensorLow);
+  Serial.print(calFlexLow);
   Serial.print(" max:");
-  Serial.println(flexSensorHigh);
+  Serial.println(calFlexHigh);
 }
 
 

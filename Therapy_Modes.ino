@@ -10,7 +10,7 @@
  *      - If the deflation threshold is broken, lower the pressure and start over???
  *      - Otherwise: Inflate the finger.
  */
-void activateDefaultMode(){
+void activateInflateMode(){
   bool deflating = false; // TEMP: Flag that sets the deflating state.
   bool inflating = false; // TEMP: Flag that sets the inflating state.
   
