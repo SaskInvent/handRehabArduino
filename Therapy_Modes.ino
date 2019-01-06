@@ -22,14 +22,14 @@ void activateInflateMode(){
   // This logic needs to be clarified and varified
   // before proceeding to more complex behaviour.
   if(trueFlex > MAINTENANCE_THRESHOLD-TOLERANCE){
-    deflating = false;
+    inflating = false;
     if(trueFlex > MAINTENANCE_THRESHOLD+TOLERANCE){
-      inflating = true;
+      deflating = true;
     } else {
-      inflating = false;
+      deflating = false;
     }
   } else {
-    deflating = true;
+    inflating = true;
   }
 
   if (deflating){

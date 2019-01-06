@@ -19,8 +19,8 @@ const int MOTOR_FORWARD = 9; // forward motor control
 // constants for automated flex sensor threshold logic and automated emergency shutoff.
 const int SAFETY_THRESHOLD_HIGH = 1000;   // All values compared to input from trueFlex.
 const int SAFETY_THRESHOLD_LOW = -100;    //
-const int MAINTENANCE_THRESHOLD = 200;    // Used in the main "void loop()" function.
-const int TOLERANCE = 200;      //The range during which pressure will be maintained
+const int MAINTENANCE_THRESHOLD = 500;    // Used in the main "void loop()" function.
+const int TOLERANCE = 100;      //The range during which pressure will be maintained
 const int ACCEPTABLE_CALIBRATION_RANGE = 300;  // Calibration is deemed a failure if we 
                                                // do not have a minimum range between high
                                                // and low sensor readings.  Currently 
