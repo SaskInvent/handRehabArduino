@@ -75,70 +75,6 @@ void initializePins(){
   servoControl.attach(10); //Attach the Servo to Pin 10
 }
 
-/*
- * Right now this runs for 10 seconds at startup.
- */
-void calibrateFlexSensor(){
-  // Temporary calibration variables, allows restart and cancel of calibration.
-  int tempFlexSensorHigh = 0;
-  int tempFlexSensorLow = 1023;
-  // TODO: Change the while loop statement, we will calibrate until the user says not to.
-  while (!Serial.available()){
-    flexValue=analogRead(flexInput);
-    // OUTPUT: Testing calibration.
-    testCalibrationOutput(tempFlexSensorLow, tempFlexSensorHigh);
-    
-    if (flexValue>tempFlexSensorHigh) {
-      tempFlexSensorHigh = flexValue;
-    }
-    if (flexValue<tempFlexSensorLow) {  
-      if (flexValue>100){
-        tempFlexSensorLow = flexValue;
-      }
-    }
-    delay(100);
-  }
-  
-  char rpiCalInput;
-  
-  // TEMP/TESTING
-  if(!Serial.available()){
-    Serial.println("Serial not available on exiting calibration");
-    emergencyShutoff(); 
-  } else {
-    rpiCalInput = Serial.read();
-    // TEMP/TESTING
-    Serial.print("RPI CAL INPUT RECIEVED: ");
-    Serial.println(rpiCalInput);
-  }
-  
-  // If we recieve the char 'a', accept the new calibration.
-  if(rpiCalInput == 'a'){
-     flexSensorLow = tempFlexSensorLow;
-     flexSensorHigh = tempFlexSensorHigh;
-     therapyMode = 0;
-     return;
-  } else if(rpiCalInput == 'r'){
-    // If we recieve the char 'r', restart the calibration process.
-    calibrateFlexSensor();
-  } else if(rpiCalInput == 'c'){
-    // If we recieve the char 'c', cancel the calibration process, and revert to the old cal.
-    therapyMode = 0;
-    return;
-  } else {
-    // Unexpected Serial input.  IF THIS EXECUTES IT IS A BUG!  
-    Serial.println("UNEXPECTED SERIAL INPUT DURING CALIBRATION.  ABORTING.");
-    emergencyShutoff();
-  }
-  
-  if (flexSensorHigh - flexSensorLow < ACCEPTABLE_CALIBRATION_RANGE){
-    // Could just continue calibration and print an error.
-    Serial.println("Rejected calibration. \n\t REASON: Range to small.  Please retry.");
-    emergencyShutoff();
-  }else{
-    motorOn(); //after sucessful calibration, start motor
-  }
-}
 
 ////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// END SETUP FUNCTIONS ////////////////////////////////////
@@ -172,24 +108,11 @@ void setup() {
   testingSetupOutput();
 
   therapyMode = idleMode;
-  // This is the command for the calibration in the first 10 seconds. 
-  // This code will be REPLACED by a START emergencyButton when we can signal 
-  // condition and hold the calibration of the flex sensor between trials. 
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////// END SETUP ///////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
-
-
-////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////// BEGIN LOOP FUNCTIONS ///////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////// END LOOP FUNCTIONS ///////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////
-
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////// BEGIN MAIN LOOP /////////////////////////////////////
@@ -246,11 +169,10 @@ void loop() {
   ////////////////////////////// BEGIN READ SERIAL INPUT ////////////////////////////////////////
   
   if(Serial.available()){
-    therapyMode = 1 * (Serial.read() - '0');
+    int tempTherapyMode = 1 * (Serial.read() - '0');
     // TEMP/TESTING
-    if(therapyMode < 0 || therapyMode > 10){
-      Serial.println("Don't use that button");
-      emergencyShutoff(); 
+    if(tempTherapyMode > 0 && tempTherapyMode < 10){
+      therapyMode = tempTherapyMode;
     }
     Serial.print("Changed Therapy Mode:");
     Serial.println(therapyMode); 
