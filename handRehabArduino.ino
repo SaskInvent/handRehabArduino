@@ -112,9 +112,6 @@ void setup() {
   // testingSetupOutput();
 
   therapyMode = idleMode;
-  // SPECTRUM: Temp hard coded calibration values
-  flexSensorLow = 400;
-  flexSensorHigh = 900;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -196,14 +193,10 @@ void loop() {
 //    case calibrationMode:
 //      calibrateFlexSensor();
 //      break;
-    case inflateMode:
+    case inflateMode :
       activateInflateMode();
       inflatingPresentationOutput();
       break;
-//    case default:
-//      // SPECTRUM: Temporary print for presentation
-//      Serial.println("WARNING: Unrecognized input");
-//      break;
     // More modes can be added here as desired.  Please add a funtion to the Therapy_Modes file
     // to perform the necessary actions as defined by your mode.
   }

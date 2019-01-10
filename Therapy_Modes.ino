@@ -20,9 +20,6 @@ void activateInflateMode(){
     emergencyShutoff();
   }
 
-  // TODO: Review and test with team.
-  // This logic needs to be clarified and varified
-  // before proceeding to more complex behaviour.
   if(trueFlex > MAINTENANCE_THRESHOLD-TOLERANCE){
     inflating = false;
     if(trueFlex > MAINTENANCE_THRESHOLD+TOLERANCE){
