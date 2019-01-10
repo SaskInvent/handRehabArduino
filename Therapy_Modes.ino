@@ -55,5 +55,6 @@ void activateInflateMode(){
 void activateIdleMode(){
   motorOff();
   
-  // TODO: 
+  // TODO: Open solenoid valves
+  
 }

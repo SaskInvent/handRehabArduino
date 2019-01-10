@@ -31,7 +31,8 @@ const int ACCEPTABLE_CALIBRATION_RANGE = 300;  // Calibration is deemed a failur
 // to the value of one of these constants, the associated therapyMode will be executed by
 // the switch statement.
 const int idleMode = 0;
-const int calibrationMode = 1;
+// SPECTRUM: Removed for presentation mode.
+//const int calibrationMode = 1;
 const int inflateMode = 2;
 
 
@@ -107,7 +108,8 @@ void setup() {
   initializePins();
 
   // OUTPUT: Tests the initialization of the pins.
-  testingSetupOutput();
+  // SPECTRUM: Commented out temporarily
+  // testingSetupOutput();
 
   therapyMode = idleMode;
 }
@@ -155,7 +157,8 @@ void loop() {
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // OUTPUT: Prints the flex values ect to Serial output. //////////////////////////////////////////
-  loopTestingOutput();                                                                  ////////////
+  // SPECTRUM: Commented out temporarily
+  // loopTestingOutput();                                                                  ////////////
   //////////////////////////////////////////////////////////////////////////////////////////////////
   
   // Turning the light on when the the value of the mapped flex sensor matches within +/- 50 of the 
@@ -190,11 +193,16 @@ void loop() {
     case idleMode:
       activateIdleMode();
       break;
-    case calibrationMode:
-      calibrateFlexSensor();
-      break;
+    // SPECTRUM: Commented out temporarily
+//    case calibrationMode:
+//      calibrateFlexSensor();
+//      break;
     case inflateMode :
       activateInflateMode();
+      break;
+    case default:
+      // SPECTRUM: Temporary print for presentation
+      Serial.println("WARNING: Unrecognized input");
       break;
     // More modes can be added here as desired.  Please add a funtion to the Therapy_Modes file
     // to perform the necessary actions as defined by your mode.

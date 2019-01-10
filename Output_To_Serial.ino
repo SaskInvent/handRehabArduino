@@ -45,3 +45,30 @@ void loopTestingOutput(){
   Serial.print("  PWM: ");
   Serial.println(PWM);
 }
+
+/**
+ * SPECTRUM: Temporary output for presentation.
+ */
+void idlePresentationOutput(){
+  Serial.print("");
+}
+
+/**
+ * SPECTRUM: Temporary output for presentation.
+ */
+void inflatingPresentationOutput(){
+  // TODO: Test output
+  float percentageFlex = flexValue/flexSensorHigh
+  Serial.print("Percentage inflated: ");
+  Serial.println(percentageFlex);
+}
+
+/**
+ * SPECTRUM: Temporary output for presentation.
+ */
+void deflatingPresentationOutput(){
+  // TODO: Test output
+  float percentageFlex = flexValue/flexSensorLow
+  Serial.print("Percentage deflated: ");
+  Serial.println(percentageFlex);
+}
