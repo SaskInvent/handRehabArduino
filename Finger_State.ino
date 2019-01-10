@@ -26,8 +26,7 @@ void deflateFinger(){
 //  Serial.print(" deflating finger now ");
   motorOff();
   servoControl.write(180); //Completely open exhaust valve to let the air out
-  openFingerValve();
-  closeEmergencyValve();
+  openAllValves();
 }
 
 /*
@@ -37,6 +36,7 @@ void deflateFinger(){
  //void maintainFingerPressure(int fingerID)
 void maintainFingerPressure(){
   Serial.print("MAINTIAN PRESSURE");
+  motorOff();
   closeFingerValve();
   closeEmergencyValve();
 }

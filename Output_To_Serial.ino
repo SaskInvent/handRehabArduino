@@ -50,7 +50,7 @@ void loopTestingOutput(){
  * SPECTRUM: Temporary output for presentation.
  */
 void idlePresentationOutput(){
-  Serial.print("");
+  Serial.println("");
 }
 
 /**
@@ -58,9 +58,14 @@ void idlePresentationOutput(){
  */
 void inflatingPresentationOutput(){
   // TODO: Test output
-  float percentageFlex = flexValue/flexSensorHigh * 100;
-  Serial.print("Percentage inflated: %");
-  Serial.println(percentageFlex);
+  Serial.print("flexValue: ");
+  Serial.print(flexValue);
+  Serial.print(" flexSensorHigh: ");
+  Serial.print(flexSensorHigh);
+  Serial.println(" ");
+//  double percentageFlex = flexValue/flexSensorHigh;
+//  Serial.print("Percentage inflated: %");
+//  Serial.println(percentageFlex);
 }
 
 /**
@@ -68,7 +73,7 @@ void inflatingPresentationOutput(){
  */
 void deflatingPresentationOutput(){
   // TODO: Test output
-  float percentageFlex = flexValue/flexSensorLow * 100;
+  double percentageFlex = flexValue/flexSensorLow * 100;
   Serial.print("Percentage deflated: %");
   Serial.println(percentageFlex);
 }

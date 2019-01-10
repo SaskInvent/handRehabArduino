@@ -112,6 +112,9 @@ void setup() {
   // testingSetupOutput();
 
   therapyMode = idleMode;
+  // SPECTRUM: Temp hard coded calibration values
+  flexSensorLow = 400;
+  flexSensorHigh = 900;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -187,13 +190,15 @@ void loop() {
   switch(therapyMode){
     case idleMode:
       activateIdleMode();
+      idlePresentationOutput();
       break;
     // SPECTRUM: Commented out temporarily
 //    case calibrationMode:
 //      calibrateFlexSensor();
 //      break;
-    case inflateMode :
+    case inflateMode:
       activateInflateMode();
+      inflatingPresentationOutput();
       break;
 //    case default:
 //      // SPECTRUM: Temporary print for presentation

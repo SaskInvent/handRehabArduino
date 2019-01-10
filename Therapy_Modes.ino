@@ -54,7 +54,5 @@ void activateInflateMode(){
  */
 void activateIdleMode(){
   motorOff();
-  
-  // TODO: Open solenoid valves, close emergency valve?  Or leave it open?
   openAllValves();
 }
