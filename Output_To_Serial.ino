@@ -58,7 +58,7 @@ void idlePresentationOutput(){
  */
 void inflatingPresentationOutput(){
   // TODO: Test output
-  float percentageFlex = flexValue/flexSensorHigh
+  float percentageFlex = flexValue/flexSensorHigh;
   Serial.print("Percentage inflated: ");
   Serial.println(percentageFlex);
 }
@@ -68,7 +68,7 @@ void inflatingPresentationOutput(){
  */
 void deflatingPresentationOutput(){
   // TODO: Test output
-  float percentageFlex = flexValue/flexSensorLow
+  float percentageFlex = flexValue/flexSensorLow;
   Serial.print("Percentage deflated: ");
   Serial.println(percentageFlex);
 }

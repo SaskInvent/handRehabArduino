@@ -165,11 +165,6 @@ void loop() {
   // potentiometer value. The delay is set so the arduino checks every 300 ms and reports the value 
   // to the serial monitor. All values here are subject to change based on requirements of system. 
 
-  // Ensures the emergency valve is closed.
-  // REWORK: Make this part of a state.  Every state should control the exact configuration of the 
-  // motor, pump, and valves as required.  This adheres to the principle of least surprise.
-  // digitalWrite(emergencyValve, HIGH);
-
   ///////////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////// BEGIN READ SERIAL INPUT ////////////////////////////////////////
   
@@ -200,10 +195,10 @@ void loop() {
     case inflateMode :
       activateInflateMode();
       break;
-    case default:
-      // SPECTRUM: Temporary print for presentation
-      Serial.println("WARNING: Unrecognized input");
-      break;
+//    case default:
+//      // SPECTRUM: Temporary print for presentation
+//      Serial.println("WARNING: Unrecognized input");
+//      break;
     // More modes can be added here as desired.  Please add a funtion to the Therapy_Modes file
     // to perform the necessary actions as defined by your mode.
   }
