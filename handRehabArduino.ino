@@ -12,16 +12,16 @@ Servo servoControl;  // create servo object to control a servo
 // Constants for the Flex Sensor and Potentiometer Readings. 
 // This is detailing, the pin numbers that are used for input or output 
 const int flexInput = A1; // Analog input 1, for flex sensor input.
-const int emergencyValve = 5; // Emergency release valve
-const int fingerValve =  7;  // Regular finger valve
+const int fingerValve =  5;  // Regular finger valve
+const int emergencyValve = 7; // Emergency release valve
 const int emergencyButton = 8; // Emergency release button.
 const int MOTOR_FORWARD = 9; // forward motor control
 
 // constants for automated flex sensor threshold logic and automated emergency shutoff.
 const int SAFETY_THRESHOLD_HIGH = 1000;   // All values compared to input from trueFlex.
 const int SAFETY_THRESHOLD_LOW = -100;    //
-const int MAINTENANCE_THRESHOLD = 200;    // Used in the main "void loop()" function.
-const int TOLERANCE = 200;      //The range during which pressure will be maintained
+const int MAINTENANCE_THRESHOLD = 500;    // Used in the main "void loop()" function.
+const int TOLERANCE = 100;      //The range during which pressure will be maintained
 const int ACCEPTABLE_CALIBRATION_RANGE = 300;  // Calibration is deemed a failure if we 
                                                // do not have a minimum range between high
                                                // and low sensor readings.  Currently 
@@ -31,8 +31,10 @@ const int ACCEPTABLE_CALIBRATION_RANGE = 300;  // Calibration is deemed a failur
 // constants defining different therapy modes.  When the value of therapyMode is set
 // to the value of one of these constants, the associated therapyMode will be executed by
 // the switch statement.
-const int calibrationMode = 0;
-const int defaultMode = 1;
+const int idleMode = 0;
+// SPECTRUM: Removed for presentation mode.
+//const int calibrationMode = 1;
+const int inflateMode = 2;
 
 
 int therapyMode; // Change this value to change the mode that the program runs in.
@@ -42,9 +44,11 @@ int therapyMode; // Change this value to change the mode that the program runs i
 // These constants are used for calibrating the flex sensor at the start of the trials. 
 // These will be eventually replaced when we can
 // hold a consistant calibration between trails (aka signal conditioning).
-int flexSensorLow = 1023; // INITIALIZATION: This number will be the lower of the 2 after 
+const int INIT_FLEX_LOW = 1023;
+const int INIT_FLEX_HIGH = 0;
+int flexSensorLow = INIT_FLEX_LOW; // INITIALIZATION: This number will be the lower of the 2 after 
                           // the calibration loop.
-int flexSensorHigh = 0; // INITIALIZATION: Will be the HIGHER number after the calibration loop.
+int flexSensorHigh = INIT_FLEX_HIGH; // INITIALIZATION: Will be the HIGHER number after the calibration loop.
 
 int flexValue; // The value read from the flex sensor.
 int trueFlex; // Will be the remapped value read from the flex sensor.
@@ -75,33 +79,6 @@ void initializePins(){
   servoControl.attach(10); //Attach the Servo to Pin 10
 }
 
-/*
- * Right now this runs for 10 seconds at startup.
- */
-void calibrateFlexSensor(){
-  while (millis() <10000){
-    flexValue=analogRead(flexInput);
-    // OUTPUT: Testing calibration.
-    testCalibrationOutput();
-    
-    if (flexValue>flexSensorHigh) {
-      flexSensorHigh = flexValue;
-    }
-    if (flexValue<flexSensorLow) {  
-      if (flexValue>100){
-        flexSensorLow = flexValue;
-      }
-    }
-    delay(100);
-  }
-  
-  if (flexSensorHigh - flexSensorLow < ACCEPTABLE_CALIBRATION_RANGE){
-    // Could just continue calibration and print an error.
-    emergencyShutoff();
-  }else{
-    motorOn(); //after sucessful calibration, start motor
-  }
-}
 
 ////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////// END SETUP FUNCTIONS ////////////////////////////////////
@@ -132,29 +109,15 @@ void setup() {
   initializePins();
 
   // OUTPUT: Tests the initialization of the pins.
-  testingSetupOutput();
+  // SPECTRUM: Commented out temporarily
+  // testingSetupOutput();
 
-  // TEMP/TESTING
-  therapyMode = calibrationMode;
-    
-  // This is the command for the calibration in the first 10 seconds. 
-  // This code will be REPLACED by a START emergencyButton when we can signal 
-  // condition and hold the calibration of the flex sensor between trials. 
+  therapyMode = idleMode;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////// END SETUP ///////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
-
-
-////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////// BEGIN LOOP FUNCTIONS ///////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////// END LOOP FUNCTIONS ///////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////
-
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////// BEGIN MAIN LOOP /////////////////////////////////////
@@ -195,38 +158,49 @@ void loop() {
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // OUTPUT: Prints the flex values ect to Serial output. //////////////////////////////////////////
-  loopTestingOutput();                                                                  ////////////
+  // SPECTRUM: Commented out temporarily
+  // loopTestingOutput();                                                                  ////////////
   //////////////////////////////////////////////////////////////////////////////////////////////////
   
   // Turning the light on when the the value of the mapped flex sensor matches within +/- 50 of the 
   // potentiometer value. The delay is set so the arduino checks every 300 ms and reports the value 
   // to the serial monitor. All values here are subject to change based on requirements of system. 
 
-  // Ensures the emergency valve is closed.
-  // REWORK: Make this part of a state.  Every state should control the exact configuration of the 
-  // motor, pump, and valves as required.  This adheres to the principle of least surprise.
-  // digitalWrite(emergencyValve, HIGH);
-
+  ///////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////// BEGIN READ SERIAL INPUT ////////////////////////////////////////
   
-
+  if(Serial.available()){
+    int tempTherapyMode = 1 * (Serial.read() - '0');
+    // TEMP/TESTING
+    if(tempTherapyMode > 0 && tempTherapyMode < 10){
+      therapyMode = tempTherapyMode;
+    }
+    Serial.print("Changed Therapy Mode:");
+    Serial.println(therapyMode); 
+  }
+  
+  /////////////////////////////// END READ SERIAL INPUT /////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////////
+  
   ///////////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// BEGIN MODE-CHANGE STATEMENT /////////////////////////////////////////
 
   switch(therapyMode){
     case idleMode:
+      activateIdleMode();
+      idlePresentationOutput();
       break;
-    case calibrationMode:
-      calibrateFlexSensor();
-      break;
-    case defaultMode :
-      activateDefaultMode();
+    // SPECTRUM: Commented out temporarily
+//    case calibrationMode:
+//      calibrateFlexSensor();
+//      break;
+    case inflateMode :
+      activateInflateMode();
+      inflatingPresentationOutput();
       break;
     // More modes can be added here as desired.  Please add a funtion to the Therapy_Modes file
     // to perform the necessary actions as defined by your mode.
   }
-
-  // TEMP/TESTING
-  therapyMode = defaultMode;
   
   //////////////////////////// END MODE-CHANGE STATEMENT ////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////////

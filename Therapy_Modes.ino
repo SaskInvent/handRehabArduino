@@ -1,6 +1,6 @@
 
 /*
- * Default therapy behaviour/mode.  Initializes the designated fingers to %50 of the calibrated
+ * Inflation therapy behaviour/mode.  Initializes the designated fingers to %50 of the calibrated
  * flex and maintains this state automatically unless there is an emergency, in which case
  * the emergency shutoff takes over.
  * 
@@ -10,26 +10,25 @@
  *      - If the deflation threshold is broken, lower the pressure and start over???
  *      - Otherwise: Inflate the finger.
  */
-void activateDefaultMode(){
+void activateInflateMode(){
   bool deflating = false; // TEMP: Flag that sets the deflating state.
   bool inflating = false; // TEMP: Flag that sets the inflating state.
+
+  motorOn();
   
   if(trueFlex > SAFETY_THRESHOLD_HIGH || trueFlex < SAFETY_THRESHOLD_LOW){
     emergencyShutoff();
   }
 
-  // TODO: Review and test with team.
-  // This logic needs to be clarified and varified
-  // before proceeding to more complex behaviour.
   if(trueFlex > MAINTENANCE_THRESHOLD-TOLERANCE){
-    deflating = false;
+    inflating = false;
     if(trueFlex > MAINTENANCE_THRESHOLD+TOLERANCE){
-      inflating = true;
+      deflating = true;
     } else {
-      inflating = false;
+      deflating = false;
     }
   } else {
-    deflating = true;
+    inflating = true;
   }
 
   if (deflating){
@@ -41,4 +40,16 @@ void activateDefaultMode(){
     // If not inflating or deflating, then the pressure will be maintained.
     maintainFingerPressure();
   }
+}
+
+
+/**
+ * Mode to: 
+ *   - shut off the motor
+ *   - open the valves
+ *   - and wait.
+ */
+void activateIdleMode(){
+  motorOff();
+  openAllValves();
 }

@@ -10,14 +10,14 @@ void testingSetupOutput(){
 /*
  * Print calibration output to the console.
  */
-void testCalibrationOutput(){
+void testCalibrationOutput(int calFlexLow, int calFlexHigh){
   Serial.print("Flex value: ");
   Serial.print(flexValue);
   Serial.print("  Calibrating flex sensor:");
   Serial.print("min:");
-  Serial.print(flexSensorLow);
+  Serial.print(calFlexLow);
   Serial.print(" max:");
-  Serial.println(flexSensorHigh);
+  Serial.println(calFlexHigh);
 }
 
 
@@ -44,4 +44,32 @@ void loopTestingOutput(){
                               // (ask nelson or brendon)
   Serial.print("  PWM: ");
   Serial.println(PWM);
+}
+
+/**
+ * SPECTRUM: Temporary output for presentation.
+ */
+void idlePresentationOutput(){
+  Serial.print("trueFlex value: ");
+  Serial.println(trueFlex);
+}
+
+/**
+ * SPECTRUM: Temporary output for presentation.
+ */
+void inflatingPresentationOutput(){
+  // TODO: Test output
+  float percentageFlex = flexValue/flexSensorHigh * 100;
+  Serial.print("Percentage inflated: %");
+  Serial.println(percentageFlex);
+}
+
+/**
+ * SPECTRUM: Temporary output for presentation.
+ */
+void deflatingPresentationOutput(){
+  // TODO: Test output
+  float percentageFlex = flexValue/flexSensorLow * 100;
+  Serial.print("Percentage deflated: %");
+  Serial.println(percentageFlex);
 }
