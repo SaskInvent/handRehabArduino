@@ -103,7 +103,7 @@ void setup() {
   // These commands are for the serial monitor, which can be found under tools tab up top.
   // This is useful for reporting of the potentiometer value as well as the resistance value 
   // of the flex sensor (mapped between 0 and 1023)
-  Bluetooth.begin(9600); // Initialize BT serial communication on pins 11 and 12
+  Bluetooth.begin(38400); // Initialize BT serial communication on pins 11 and 12
   Serial.begin(9600);
   while(!Serial){ // TODO: Remove or modify if we switch to using BT exclusively.
     // wait for Serial port to connect.  Needed for native USB port only.
@@ -174,14 +174,15 @@ void loop() {
   ////////////////////////////// BEGIN READ SERIAL INPUT ////////////////////////////////////////
   
   if(Bluetooth.available()){
+    // Looking for values from 48 to 57 (ASCII '0' to ASCII '9')
     int tempTherapyMode = 1 * (Bluetooth.read() - '0');
     // TEMP/TESTING
     // TODO: Bug when reading Bluetooth Serial, seems to send 3 instances of the same character.  Could be an issue with our code, but it worked for normal Serial so I doubt it.  Probably an issue with the Android Serial Terminal app (maybe it is using a different baud rate?)
-    if(tempTherapyMode > 0 && tempTherapyMode < 10){
+    if(tempTherapyMode >= 0 && tempTherapyMode < 10){
       therapyMode = tempTherapyMode;
+      loopReadingInput();
+      delay(1000);
     }
-    loopReadingInput();
-    delay(1000);
   }
 
   /////////////////////////////// END READ SERIAL INPUT /////////////////////////////////////////
