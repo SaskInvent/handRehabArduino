@@ -11,6 +11,7 @@ Servo servoControl;  // create servo object to control a servo
 
 // Constants for the Flex Sensor and Potentiometer Readings. 
 // This is detailing, the pin numbers that are used for input or output 
+//SoftwareSerial Bluetooth(11, 10); // RX, TX   TODO: Elaborate
 const int flexInput = A1; // Analog input 1, for flex sensor input.
 const int fingerValve =  5;  // Regular finger valve
 const int emergencyValve = 7; // Emergency release valve
@@ -45,10 +46,11 @@ int therapyMode; // Change this value to change the mode that the program runs i
 // hold a consistant calibration between trails (aka signal conditioning).
 const int INIT_FLEX_LOW = 1023;
 const int INIT_FLEX_HIGH = 0;
-int flexSensorLow = INIT_FLEX_LOW; // INITIALIZATION: This number will be the lower of the 2 after 
-                          // the calibration loop.
-int flexSensorHigh = INIT_FLEX_HIGH; // INITIALIZATION: Will be the HIGHER number after the calibration loop.
 
+int flexSensorHigh = INIT_FLEX_HIGH; // INITIALIZATION: Will be the HIGHER number after the calibration loop.
+int flexSensorLow = INIT_FLEX_LOW; // INITIALIZATION: This number will be the lower of the 2 after 
+                                   // the calibration loop.
+                                   
 int flexValue; // The value read from the flex sensor.
 int trueFlex; // Will be the remapped value read from the flex sensor.
 int emergencyButtonInput; // Reads 
@@ -97,7 +99,8 @@ void initializePins(){
 void setup() {
   // These commands are for the serial monitor, which can be found under tools tab up top.
   // This is useful for reporting of the potentiometer value as well as the resistance value 
-  // of the flex sensor (mapped between 0 and 1023)  
+  // of the flex sensor (mapped between 0 and 1023)
+//  Bluetooth.begin(9600);
   Serial.begin(9600);
   while(!Serial){
     // wait for Serial port to connect.  Needed for native USB port only.
