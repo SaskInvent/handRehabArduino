@@ -16,8 +16,7 @@
  *       For other applications we will write to SoftwareSerial.
  * 
  * To enter AT-COMMAND mode:
- * 1. Upload an empty sketch to the Arduino (sometimes there are 
- *    issues uploading the sketch after wiring)
+ * 1. Upload an empty sketch to the Arduino. (Can not upload sketchs if ports 0 and 1 are in use)
  * 2. Unplug the Arduino from power and connect wires as follows:
  *      - Arduino GND to RESET  <=== Will fail to enter AT mode without this.
  *      - Arduino RX to HC-05 RX

@@ -1,6 +1,14 @@
+// source: https://www.teachmemicro.com/arduino-bluetooth/#Control_a_LED_via_Bluetooth_and_Android
 # include <SoftwareSerial.h>
 
-SoftwareSerial Bluetooth(11, 10); // RX, TX
+/*
+ * Use this sketch to test a BT module after AT mode has been confirmed to work.
+ * TODO: We are supposed to be able to upload sketchs to the Arduino using BT.  I was unable to get this working.
+ */
+
+SoftwareSerial Bluetooth(11, 10); // RX, TX  (NOTE: RX is wired into HC-05 TXD,
+                                  //                and TX is wired into HC-05 RXD)
+                                  // RX = Recieve, TX = Transmission
 int LED = 13; // The on-board LED
 int Data; // Data recieved
 
