@@ -103,7 +103,7 @@ void setup() {
   // These commands are for the serial monitor, which can be found under tools tab up top.
   // This is useful for reporting of the potentiometer value as well as the resistance value 
   // of the flex sensor (mapped between 0 and 1023)
-  Bluetooth.begin(38400); // Initialize BT serial communication on pins 11 and 12
+  Bluetooth.begin(9600); // Initialize BT serial communication on pins 11 and 12
   Serial.begin(9600);
   while(!Serial){ // TODO: Remove or modify if we switch to using BT exclusively.
     // wait for Serial port to connect.  Needed for native USB port only.
