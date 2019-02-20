@@ -1,0 +1,12 @@
+AT
+# NOTE: Append =param1,param2, etc. to set the same parameters that are viewed with these settings.
+# baud rate,stop bit(1,1.5,or 2),parity bit [current settings, 9600,1,0
+AT+UART # possible baud rates: 9600, 19200, 38400, 57600, 74880, 115200, and to 2 million, shouldn't need more than 115200
+AT+ADDR
+AT+PSWD
+AT+ROLE
+AT+VERSION
+AT+STATE
+# For connections mode. 0 to connect to a specific device using AT+BIND
+AT+CMODE
+AT+BIND
