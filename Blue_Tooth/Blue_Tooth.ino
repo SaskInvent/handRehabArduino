@@ -1,11 +1,11 @@
 // Source for tutorial: https://www.teachmemicro.com/arduino-bluetooth/
 // NOTE: Would need a BLE module to work with iOS devices.
 // Using Serial BLuetooth Terminal for testing on Android.
-// 
+//
 
 /*
  * HC-05 Bluetooth module
- * 
+ *
  * ###########################################################################
  * ####################### AT-COMMAND mode. ##################################
  * ###########################################################################
@@ -18,7 +18,7 @@
  * To enter AT-COMMAND mode:
  * 1. Upload an empty sketch to the Arduino. (Can not upload sketchs if ports 0 and 1 are in use)
  * 2. Unplug the Arduino from power and connect wires as follows:
- *      - Arduino GND to RESET  <=== Will fail to enter AT mode without this.
+ *      - Arduino GND to RESET  <=== Allows Arduino to become USB Serial adapter
  *      - Arduino RX to HC-05 RX
  *      - Arduino TX to HC-05 TX
  *      - Arduino 3.3V to HC-05 VCC
