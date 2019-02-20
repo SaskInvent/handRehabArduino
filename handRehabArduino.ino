@@ -11,7 +11,8 @@ Servo servoControl;  // create servo object to control a servo
 
 // Constants for the Flex Sensor and Potentiometer Readings. 
 // This is detailing, the pin numbers that are used for input or output 
-SoftwareSerial Bluetooth(12, 11); // RX, TX  (NOTE: RX is wired into HC-05 TXD,
+SoftwareSerial Bluetooth(12, 11); // pin 12, pin 11 for BT communication.
+                                  // RX, TX  (NOTE: RX is wired into HC-05 TXD,
                                   //                and TX is wired into HC-05 RXD)
                                   // RX = Recieve, TX = Transmission  
 const int flexInput = A1; // Analog input 1, for flex sensor input.
