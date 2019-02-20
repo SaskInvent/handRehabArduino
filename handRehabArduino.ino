@@ -22,8 +22,8 @@ const int emergencyButton = 8; // Emergency release button.
 const int MOTOR_FORWARD = 9; // forward motor control
 
 // constants for automated flex sensor threshold logic and automated emergency shutoff.
-const int SAFETY_THRESHOLD_HIGH = 1000;   // All values compared to input from trueFlex.
-const int SAFETY_THRESHOLD_LOW = -100;    //
+const int SAFETY_THRESHOLD_HIGH = 1000;   // All values compared to input from trueFlex. TODO: Verify proper value via testing
+const int SAFETY_THRESHOLD_LOW = -100;    // TODO: Verify proper value via testing
 const int MAINTENANCE_THRESHOLD = 500;    // Used in the main "void loop()" function.
 const int TOLERANCE = 100;      //The range during which pressure will be maintained
 const int ACCEPTABLE_CALIBRATION_RANGE = 300;  // Calibration is deemed a failure if we 
@@ -105,7 +105,7 @@ void setup() {
   // of the flex sensor (mapped between 0 and 1023)
   Bluetooth.begin(9600); // Initialize BT serial communication on pins 11 and 12
   Serial.begin(9600);
-  while(!Serial){
+  while(!Serial){ // TODO: Remove or modify if we switch to using BT exclusively.
     // wait for Serial port to connect.  Needed for native USB port only.
   }
 
@@ -173,23 +173,25 @@ void loop() {
   ///////////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////// BEGIN READ SERIAL INPUT ////////////////////////////////////////
   
-  if(Serial.available()){
-    int tempTherapyMode = 1 * (Serial.read() - '0');
+  if(Bluetooth.available()){
+    int tempTherapyMode = 1 * (Bluetooth.read() - '0');
     // TEMP/TESTING
+    // TODO: Bug when reading Bluetooth Serial, seems to send 3 instances of the same character.  Could be an issue with our code, but it worked for normal Serial so I doubt it.  Probably an issue with the Android Serial Terminal app (maybe it is using a different baud rate?)
     if(tempTherapyMode > 0 && tempTherapyMode < 10){
       therapyMode = tempTherapyMode;
     }
-    Serial.print("Changed Therapy Mode:");
-    Serial.println(therapyMode); 
+    loopReadingInput();
+    delay(1000);
   }
-  
+
   /////////////////////////////// END READ SERIAL INPUT /////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////////
-  
+
   ///////////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// BEGIN MODE-CHANGE STATEMENT /////////////////////////////////////////
 
   switch(therapyMode){
+    // Serial output is written by the end effecting functions in this section.  This allows for the cleanest code and least chance of surprises.
     case idleMode:
       activateIdleMode();
       break;

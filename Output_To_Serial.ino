@@ -34,14 +34,21 @@ void testingFinalCalibrationOutput(){
 }
 
 /*
+ * Print the results of reading input from BT.
+ */
+void loopReadingInput(){
+  Serial.print("Changed Therapy Mode:");
+  Serial.println(therapyMode);
+}
+
+/*
  * Prints main loop output to the console.
  */
 void loopTestingOutput(){
   Serial.print("Flex: ");
-  Serial.print(flexValue);  
+  Serial.print(flexValue);
   Serial.print("  True flex: ");
-  Serial.print(trueFlex); // this value is divided by 10 because the lcd changes place values if not 
-                              // (ask nelson or brendon)
+  Serial.print(trueFlex);
   Serial.print("  PWM: ");
   Serial.println(PWM);
 }

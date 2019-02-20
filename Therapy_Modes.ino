@@ -14,10 +14,11 @@ void activateInflateMode(){
   bool deflating = false; // TEMP: Flag that sets the deflating state.
   bool inflating = false; // TEMP: Flag that sets the inflating state.
 
-  motorOn();
-  
+  // motorOn(); // TODO: Check if this is needed.  Shouldn't be
+
   if(trueFlex > SAFETY_THRESHOLD_HIGH || trueFlex < SAFETY_THRESHOLD_LOW){
     emergencyShutoff();
+    return;
   }
 
   if(trueFlex > MAINTENANCE_THRESHOLD-TOLERANCE){

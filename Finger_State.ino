@@ -16,7 +16,7 @@ void inflateFinger(){
 }
 
 /*
- * STATE: inflate the glove.   Interfaces with either the motor AND pump,  
+ * STATE: inflate the glove.   Interfaces with either the motor AND pump,
  * OR with the ??? flow control ??? valves as neccessary.
  */
  // void deflateFinger(int fingerID)
@@ -28,7 +28,7 @@ void deflateFinger(){
 }
 
 /*
- * STATE: Maintian the pressure currently in the glove.   Interfaces with either the motor AND pump,  
+ * STATE: Maintian the pressure currently in the glove.   Interfaces with either the motor AND pump,
  * OR with the ??? flow control ??? valves as neccessary.
  */
  //void maintainFingerPressure(int fingerID)

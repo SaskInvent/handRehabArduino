@@ -3,13 +3,13 @@
  * The safest thing to do is shutoff the motor and pump, then open the valves.
  * We do this in a while loop forever to ensure the device is shutoff whenever
  * the button is pressed.
- * 
+ *
  * NOTE: RESETS and returns to 
  */
 void emergencyShutoff(){
   while(true){
-    if(Serial.available()){
-      char tempEmergencyInput = Serial.read();
+    if(Bluetooth.available()){
+      char tempEmergencyInput = Bluetooth.read();
       if(tempEmergencyInput=='R'){
         therapyMode = idleMode;
         return;
