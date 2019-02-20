@@ -6,7 +6,7 @@
  * TODO: We are supposed to be able to upload sketchs to the Arduino using BT.  I was unable to get this working.
  */
 
-SoftwareSerial Bluetooth(11, 10); // RX, TX  (NOTE: RX is wired into HC-05 TXD,
+SoftwareSerial Bluetooth(12, 11); // RX, TX  (NOTE: RX is wired into HC-05 TXD,
                                   //                and TX is wired into HC-05 RXD)
                                   // RX = Recieve, TX = Transmission
 int LED = 13; // The on-board LED

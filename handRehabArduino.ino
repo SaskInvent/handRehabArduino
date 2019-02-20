@@ -1,7 +1,7 @@
 // If not properly set up, go to Sketch > Include Library > Manage Library. Search for and install required libraries:
 #include <Wire.h> //library to control I2C bus from the flow sensor
 #include <Servo.h> //library to control the servo
-#include <SoftwareSerial.h> //library for bluetooth communication
+#include <SoftwareSerial.h> //library for bluetooth communication with HC-05 BT-module
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// BEGIN INITIALIZING GLOBALS ///////////////////////////////////
@@ -11,7 +11,9 @@ Servo servoControl;  // create servo object to control a servo
 
 // Constants for the Flex Sensor and Potentiometer Readings. 
 // This is detailing, the pin numbers that are used for input or output 
-//SoftwareSerial Bluetooth(11, 10); // RX, TX   TODO: Elaborate
+SoftwareSerial Bluetooth(12, 11); // RX, TX  (NOTE: RX is wired into HC-05 TXD,
+                                  //                and TX is wired into HC-05 RXD)
+                                  // RX = Recieve, TX = Transmission  
 const int flexInput = A1; // Analog input 1, for flex sensor input.
 const int fingerValve =  5;  // Regular finger valve
 const int emergencyValve = 7; // Emergency release valve
@@ -100,7 +102,7 @@ void setup() {
   // These commands are for the serial monitor, which can be found under tools tab up top.
   // This is useful for reporting of the potentiometer value as well as the resistance value 
   // of the flex sensor (mapped between 0 and 1023)
-//  Bluetooth.begin(9600);
+  Bluetooth.begin(9600); // Initialize BT serial communication on pins 11 and 12
   Serial.begin(9600);
   while(!Serial){
     // wait for Serial port to connect.  Needed for native USB port only.
