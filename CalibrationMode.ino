@@ -2,9 +2,10 @@
 void calibrateFlexSensor(){
   motorOff();
   // Temporary calibration variables, allows restart and cancel of calibration.
-  int tempFlexSensorHigh = 0;
-  int tempFlexSensorLow = 1023;
+  int tempFlexSensorHigh = INIT_FLEX_HIGH;
+  int tempFlexSensorLow = INIT_FLEX_LOW;
   // TODO: Change the while loop statement, we will calibrate until the user says not to.
+  // TODO: Review.  While loop statement may have to change to accomodate BlueTooth
   while (!Serial.available()){
     flexValue=analogRead(flexInput);
     // OUTPUT: Testing calibration.
@@ -21,7 +22,7 @@ void calibrateFlexSensor(){
     delay(100);
   }
   
-  char rpiCalInput;
+  char rpiCalInput = 'Z';
   
   // TEMP/TESTING
   if(!Serial.available()){
