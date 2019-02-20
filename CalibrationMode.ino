@@ -33,7 +33,8 @@ void calibrateFlexSensor(){
     Serial.print("RPI CAL INPUT RECIEVED: ");
     Serial.println(rpiCalInput);
   }
-  
+
+  // TODO: Compiler warns that rpiCalInput may not be initialized
   // If we recieve the char 'a', accept the new calibration.
   if(rpiCalInput == 'a'){
      flexSensorLow = tempFlexSensorLow;
