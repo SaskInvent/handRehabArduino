@@ -4,11 +4,11 @@
  * to the individual valves.
  */
 void openFingerValve(){
-  digitalWrite(fingerValve, LOW); //default state (at LOW) is open valve. 
+  digitalWrite(fingerValve1, LOW); //default state (at LOW) is open valve. 
 }
 
 void closeFingerValve(){
-  digitalWrite(fingerValve, HIGH); //default state (at LOW) is open valve. 
+  digitalWrite(fingerValve1, HIGH); //default state (at LOW) is open valve. 
 }
 
 void openEmergencyValve(){

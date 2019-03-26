@@ -11,13 +11,16 @@
  *      - Otherwise: Inflate the finger.
  */
 void activateInflateMode(){
+
+  // TEMP/TESTING
+  Bluetooth.print("activateInflateMode ");
   bool deflating = false; // TEMP: Flag that sets the deflating state.
   bool inflating = false; // TEMP: Flag that sets the inflating state.
 
   // motorOn(); // TODO: Check if this is needed.  Shouldn't be
 
   if(trueFlex > SAFETY_THRESHOLD_HIGH || trueFlex < SAFETY_THRESHOLD_LOW){
-    emergencyShutoff();
+    emergencyShutoff("trueFlex outside of threshold: trueFlex -> " + trueFlex);
     return;
   }
 
@@ -51,6 +54,7 @@ void activateInflateMode(){
  *   - and wait.
  */
 void activateIdleMode(){
+  Bluetooth.print("activateIdleMode ");
   motorOff();
   openAllValves();
 }

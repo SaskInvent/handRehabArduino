@@ -11,15 +11,16 @@ Servo servoControl;  // create servo object to control a servo
 
 // Constants for the Flex Sensor and Potentiometer Readings.
 // This is detailing, the pin numbers that are used for input or output
-SoftwareSerial Bluetooth(12, 11); // pin 12, pin 11 for BT communication.
+SoftwareSerial Bluetooth(12, 13); // pin 12, pin 11 for BT communication.
                                   // RX, TX  (NOTE: RX is wired into HC-05 TXD,
                                   //                and TX is wired into HC-05 RXD)
                                   // RX = Recieve, TX = Transmission
 const int flexInput = A1; // Analog input 1, for flex sensor input.
-const int fingerValve1 =  3;  // Regular finger valve
-const int fingerValve2 =  4;  // Regular finger valve
-const int fingerValve3 =  5;  // Regular finger valve
-const int fingerValve4 =  6;  // Regular finger valve
+const int fingerValve1 = 3;  // Regular finger valve
+const int fingerValve2 = 4;  // Regular finger valve
+const int fingerValve3 = 5;  // Regular finger valve
+const int fingerValve4 = 6;  // Regular finger valve
+const int fingerValves [4] = {fingerValve1, fingerValve2, fingerValve3, fingerValve4}; // Array to organized finger valve pin definitions.
 const int emergencyValve = 7; // Emergency release valve
 const int MOTOR_FORWARD = 8; // forward motor control
 const int emergencyButton = 9; // Emergency release button.
@@ -62,8 +63,6 @@ int trueFlex; // Will be the remapped value read from the flex sensor.
 int emergencyButtonInput; // Reads
 int angleControl; //takes value from 0 to 180 (need to be remapped) to control the opening of the exhaust valve
 
-int PWM = 0; // Controls motor driver. Value betweem 0-255. GETS MAPPED FROM MAP 0-1023!
-
 ////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////// END INITIALIZING GLOBALS ///////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -77,7 +76,7 @@ int PWM = 0; // Controls motor driver. Value betweem 0-255. GETS MAPPED FROM MAP
  * Initialize all output/input pins.
  */
 void initializePins(){
-  pinMode(fingerValve, OUTPUT);
+  pinMode(fingerValve1, OUTPUT);
   pinMode(emergencyValve, OUTPUT);
 
   pinMode(MOTOR_FORWARD, OUTPUT); // Takes variable integer values to set the speed of the motor.
@@ -122,6 +121,10 @@ void setup() {
   // OUTPUT: Tests the initialization of the pins.
   testingSetupOutput();
 
+  // TEMP/PRESENTATION
+  flexSensorHigh = 1000;
+  flexSensorLow = 200;
+
   therapyMode = idleMode;
 }
 
@@ -142,7 +145,7 @@ void loop() {
   //////////////// TEMP: An electrical solution will be hardwired in the future. //////////////
   emergencyButtonInput = digitalRead(emergencyButton);
   if(emergencyButtonInput == HIGH){
-    emergencyShutoff();
+    emergencyShutoff("Emergency button pressed.");
   }
   //////////////////////// END EMERGENCY SHUTOFF ///////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////////
@@ -153,7 +156,7 @@ void loop() {
   // The map function is used to increase our resolution from whatever the
   // calibrated range is to the maximum possible range (0-1023, based on 8 bit
   // resolution of arduino uno)
-  flexValue= analogRead(flexInput);
+  flexValue=analogRead(flexInput);
 
   // The flex value remapped to take advantage of our full range of possible values.
   // NOTE: This can be less than 0 or higher than 1023 in some cases.  This is due to

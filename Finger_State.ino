@@ -6,9 +6,8 @@
  */
  // void inflateFinger(int fingerID)
 void inflateFinger(){
-  Serial.print(" inflating finger now. Local PWM: ");
-  Serial.print(PWM);
-  Serial.print(" -> ");
+  Bluetooth.print(" inflating finger now: ");
+  Bluetooth.print(" -> ");
   motorOn();
   servoControl.write(angleControl); //Control the exhaust valve to determine the speed of finger inflation
   openFingerValve();
@@ -21,7 +20,7 @@ void inflateFinger(){
  */
  // void deflateFinger(int fingerID)
 void deflateFinger(){
-  Serial.print(" deflating finger now ");
+  Bluetooth.print(" deflating finger now ");
   motorOff();
   servoControl.write(180); //Completely open exhaust valve to let the air out
   openAllValves();
@@ -33,7 +32,7 @@ void deflateFinger(){
  */
  //void maintainFingerPressure(int fingerID)
 void maintainFingerPressure(){
-  Serial.print("MAINTIAN PRESSURE");
+  Bluetooth.print("MAINTIAN PRESSURE");
   motorOff();
   closeFingerValve();
   closeEmergencyValve();

@@ -29,14 +29,13 @@ void calibrateFlexSensor(){
   
   // TEMP/TESTING
   if(!Bluetooth.available()){
-    Serial.println("Serial not available on exiting calibration");
-    emergencyShutoff(); 
+    emergencyShutoff("Serial not available on exiting calibration"); 
     return; // If we get back here do not continue execution.
   } else {
     BT_CalInput = Bluetooth.read();
     // TEMP/TESTING
-    Serial.print("BT CAL INPUT RECIEVED: ");
-    Serial.println(BT_CalInput);
+    Bluetooth.print("BT CAL INPUT RECIEVED: ");
+    Bluetooth.println(BT_CalInput);
   }
 
   // TODO: Compiler warns that BT_CalInput may not be initialized
@@ -56,8 +55,7 @@ void calibrateFlexSensor(){
     return;
   } else {
     // Unexpected Bluetooth Serial input.  IF THIS EXECUTES IT IS A BUG!  
-    Serial.println("UNEXPECTED BLUETOOTH SERIAL INPUT DURING CALIBRATION.  ABORTING.");
-    emergencyShutoff();
+    emergencyShutoff("UNEXPECTED BLUETOOTH SERIAL INPUT DURING CALIBRATION.  ABORTING.");
     return;
   }
   
@@ -65,15 +63,10 @@ void calibrateFlexSensor(){
     flexSensorHigh = INIT_FLEX_HIGH;
     flexSensorLow = INIT_FLEX_LOW;
     // Could just continue calibration and print an error.
-    Serial.println("Rejected calibration. \n\t REASON: Range to small.  Please retry.");
-    emergencyShutoff();
+    emergencyShutoff("Rejected calibration.  REASON: Range to small.  Please retry.");
     return;
   }else{
     motorOn(); //after sucessful calibration, start motor
     return;
   }
 }
-
-
-
-

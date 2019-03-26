@@ -53,10 +53,10 @@
  */
 
 // Uncomment empty script and upload if following AT-COMMAND example.
-void setup(){
-    
-}
-
-void loop(){
-  
-}
+//void setup(){
+//    
+//}
+//
+//void loop(){
+//  
+//}

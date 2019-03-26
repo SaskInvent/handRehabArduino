@@ -6,7 +6,7 @@
  *
  * NOTE: RESETS and returns to 
  */
-void emergencyShutoff(){
+void emergencyShutoff(String msg){
   while(true){
     if(Bluetooth.available()){
       char tempEmergencyInput = Bluetooth.read();
@@ -16,10 +16,10 @@ void emergencyShutoff(){
       }
       // Else: Continue, since we only reset if we recieve an 'R'
     }
-    Serial.print("Shuting off the motor");
+    Bluetooth.print("EMERGENCY SHUTOFF: REASON -> " + msg);
     motorOff();
     delay(100);
-    Serial.println("Opening finger and emergency valves.");
+    Bluetooth.println("Opening finger and emergency valves.");
     deflateFinger();
   }
 }

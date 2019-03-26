@@ -3,33 +3,33 @@
  * Print the results of setup to the console.
  */
 void testingSetupOutput(){
-  Serial.print("Integer value of A1:  ");
-  Serial.println(flexInput);
+  Bluetooth.print("Integer value of A1:  ");
+  Bluetooth.println(flexInput);
 }
 
 /*
  * Print calibration output to the console.
  */
 void testCalibrationOutput(int calFlexLow, int calFlexHigh){
-  Serial.print("Flex value: ");
-  Serial.print(flexValue);
-  Serial.print("  Calibrating flex sensor:");
-  Serial.print("min:");
-  Serial.print(calFlexLow);
-  Serial.print(" max:");
-  Serial.println(calFlexHigh);
+  Bluetooth.print("Flex value: ");
+  Bluetooth.print(flexValue);
+  Bluetooth.print("  Calibrating flex sensor:");
+  Bluetooth.print("min:");
+  Bluetooth.print(calFlexLow);
+  Bluetooth.print(" max:");
+  Bluetooth.println(calFlexHigh);
 }
 
 
 /*
- * Prints the final calibrated values to Serial output.
+ * Prints the final calibrated values to Bluetooth output.
  */
 void testingFinalCalibrationOutput(){
-  //Printing the most important values to the serial monitor
-  Serial.print("Max Value of Flex Sensor: ");
-  Serial.print(flexSensorHigh);
-  Serial.print("Min Value of Flex Sensor: ");
-  Serial.println(flexSensorLow);
+  //Printing the most important values to the Bluetooth monitor
+  Bluetooth.print("Max Value of Flex Sensor: ");
+  Bluetooth.print(flexSensorHigh);
+  Bluetooth.print("Min Value of Flex Sensor: ");
+  Bluetooth.println(flexSensorLow);
   delay(3000);
 }
 
@@ -37,18 +37,16 @@ void testingFinalCalibrationOutput(){
  * Print the results of reading input from BT.
  */
 void loopReadingInput(){
-  Serial.print("Changed Therapy Mode:");
-  Serial.println(therapyMode);
+  Bluetooth.print("Changed Therapy Mode: ");
+  Bluetooth.println(therapyMode);
 }
 
 /*
  * Prints main loop output to the console.
  */
 void loopTestingOutput(){
-  Serial.print("Flex: ");
-  Serial.print(flexValue);
-  Serial.print("  True flex: ");
-  Serial.print(trueFlex);
-  Serial.print("  PWM: ");
-  Serial.println(PWM);
+  Bluetooth.print("Flex: ");
+  Bluetooth.print(flexValue);
+  Bluetooth.print("  True flex: ");
+  Bluetooth.println(trueFlex);
 }
