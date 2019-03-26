@@ -7,6 +7,8 @@
 ///////////////////////// BEGIN INITIALIZING GLOBALS ///////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
+#define SIZE_OF 4
+
 Servo servoControl;  // create servo object to control a servo
 
 // Constants for the Flex Sensor and Potentiometer Readings.
@@ -20,7 +22,7 @@ const int fingerValve1 = 3;  // Regular finger valve
 const int fingerValve2 = 4;  // Regular finger valve
 const int fingerValve3 = 5;  // Regular finger valve
 const int fingerValve4 = 6;  // Regular finger valve
-const int fingerValves [4] = {fingerValve1, fingerValve2, fingerValve3, fingerValve4}; // Array to organized finger valve pin definitions.
+const int fingerValves [SIZE_OF] = {fingerValve1, fingerValve2, fingerValve3, fingerValve4}; // Array to organized finger valve pin definitions.
 const int emergencyValve = 7; // Emergency release valve
 const int MOTOR_FORWARD = 8; // forward motor control
 const int emergencyButton = 9; // Emergency release button.
@@ -76,7 +78,9 @@ int angleControl; //takes value from 0 to 180 (need to be remapped) to control t
  * Initialize all output/input pins.
  */
 void initializePins(){
-  pinMode(fingerValve1, OUTPUT);
+  for(int i=0; i<SIZE_OF; i++){
+    pinMode(fingerValves[i], OUTPUT);  
+  }
   pinMode(emergencyValve, OUTPUT);
 
   pinMode(MOTOR_FORWARD, OUTPUT); // Takes variable integer values to set the speed of the motor.
