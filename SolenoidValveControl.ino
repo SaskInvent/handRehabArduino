@@ -3,12 +3,12 @@
  * This file allows us to abstract away the actual details of writing
  * to the individual valves.
  */
-void openFingerValve(){
-  digitalWrite(fingerValve1, LOW); //default state (at LOW) is open valve. 
+void openFingerValve(int fingerID){
+  digitalWrite(fingerID, LOW); //default state (at LOW) is open valve. 
 }
 
-void closeFingerValve(){
-  digitalWrite(fingerValve1, HIGH); //default state (at LOW) is open valve. 
+void closeFingerValve(int fingerID){
+  digitalWrite(fingerID, HIGH); //default state (at LOW) is open valve. 
 }
 
 void openEmergencyValve(){
@@ -20,6 +20,8 @@ void closeEmergencyValve(){
 }
 
 void openAllValves(){
-  openFingerValve();
+  for(int i=0; i<SIZE_OF; i++){
+    openFingerValve(fingerValves[i]);  
+  }
   openEmergencyValve();
 }

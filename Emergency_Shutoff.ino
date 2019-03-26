@@ -20,6 +20,6 @@ void emergencyShutoff(String msg){
     motorOff();
     delay(100);
     Bluetooth.println("Opening finger and emergency valves.");
-    deflateFinger();
+    deflateAllFingers();
   }
 }

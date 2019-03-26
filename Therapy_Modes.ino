@@ -17,8 +17,6 @@ void activateInflateMode(){
   bool deflating = false; // TEMP: Flag that sets the deflating state.
   bool inflating = false; // TEMP: Flag that sets the inflating state.
 
-  // motorOn(); // TODO: Check if this is needed.  Shouldn't be
-
   if(trueFlex > SAFETY_THRESHOLD_HIGH || trueFlex < SAFETY_THRESHOLD_LOW){
     emergencyShutoff("trueFlex outside of threshold: trueFlex -> " + trueFlex);
     return;
@@ -37,12 +35,21 @@ void activateInflateMode(){
 
   if (deflating){
     // deflation takes priority over inflating, for safety reasons.
-    deflateFinger();
+    motorOff();
+    deflateAllFingers();
   } else if (inflating){
-    inflateFinger();
+    motorOn(); // TEMP/PRESENTATION: This is here for lack of a better place.
+    closeEmergencyValve();
+    for(int i=0; i<SIZE_OF; i++){ // TEMP/PRESENTATION
+      inflateFinger(fingerValves[i]);
+    }
   } else {
+    motorOff();
+    closeEmergencyValve();
     // If not inflating or deflating, then the pressure will be maintained.
-    maintainFingerPressure();
+    for(int i=0; i<SIZE_OF; i++){ // TEMP/PRESENTATION
+      maintainFingerPressure(fingerValves[i]);
+    }
   }
 }
 

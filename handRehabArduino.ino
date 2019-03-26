@@ -188,7 +188,6 @@ void loop() {
   if(Bluetooth.available()){
     // Looking for values from 48 to 57 (ASCII '0' to ASCII '9')
     int tempTherapyMode = 1 * (Bluetooth.read() - '0');
-    // TEMP/TESTING
     // TODO: Bug when reading Bluetooth Serial, seems to send 3 instances of the same character.  
     // Could be an issue with our code, but it worked for normal Serial so I doubt it.  
     // Probably an issue with the Android Serial Terminal app (maybe it is using a different baud rate?)
