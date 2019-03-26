@@ -7,7 +7,17 @@
 ///////////////////////// BEGIN INITIALIZING GLOBALS ///////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-#define SIZE_OF 4
+#define SIZE_OF 4  // Size of the finger array.  Used in loops that operate on all the fingers.
+// constants for automated flex sensor threshold logic and automated emergency shutoff.
+#define SAFETY_THRESHOLD_HIGH 1000   // All values compared to input from trueFlex. TODO: Verify proper value via testing
+#define SAFETY_THRESHOLD_LOW -100    // TODO: Verify proper value via testing
+#define MAINTENANCE_THRESHOLD 500    // Used in the main "void loop()" function.
+#define TOLERANCE 100      //The range during which pressure will be maintained
+#define ACCEPTABLE_CALIBRATION_RANGE 300  // Calibration is deemed a failure if we
+                                               // do not have a minimum range between high
+                                               // and low sensor readings.  Currently
+                                               // causes emergency shutoff.  In the future
+                                               // could be used to restart calibration.
 
 Servo servoControl;  // create servo object to control a servo
 
@@ -22,21 +32,10 @@ const int fingerValve1 = 3;  // Regular finger valve
 const int fingerValve2 = 4;  // Regular finger valve
 const int fingerValve3 = 5;  // Regular finger valve
 const int fingerValve4 = 6;  // Regular finger valve
-const int fingerValves [SIZE_OF] = {fingerValve1, fingerValve2, fingerValve3, fingerValve4}; // Array to organized finger valve pin definitions.
+const int fingerValves [SIZE_OF] = {fingerValve1, fingerValve2, fingerValve3, fingerValve4}; // Array to organize finger valve pin definitions.
 const int emergencyValve = 7; // Emergency release valve
 const int MOTOR_FORWARD = 8; // forward motor control
 const int emergencyButton = 9; // Emergency release button.
-
-// constants for automated flex sensor threshold logic and automated emergency shutoff.
-const int SAFETY_THRESHOLD_HIGH = 1000;   // All values compared to input from trueFlex. TODO: Verify proper value via testing
-const int SAFETY_THRESHOLD_LOW = -100;    // TODO: Verify proper value via testing
-const int MAINTENANCE_THRESHOLD = 500;    // Used in the main "void loop()" function.
-const int TOLERANCE = 100;      //The range during which pressure will be maintained
-const int ACCEPTABLE_CALIBRATION_RANGE = 300;  // Calibration is deemed a failure if we
-                                               // do not have a minimum range between high
-                                               // and low sensor readings.  Currently
-                                               // causes emergency shutoff.  In the future
-                                               // could be used to restart calibration.
 
 // constants defining different therapy modes.  When the value of therapyMode is set
 // to the value of one of these constants, the associated therapyMode will be executed by
@@ -79,7 +78,7 @@ int angleControl; //takes value from 0 to 180 (need to be remapped) to control t
  */
 void initializePins(){
   for(int i=0; i<SIZE_OF; i++){
-    pinMode(fingerValves[i], OUTPUT);  
+    pinMode(fingerValves[i], OUTPUT);  // Initialize all 4 finger valves.
   }
   pinMode(emergencyValve, OUTPUT);
 
@@ -190,7 +189,10 @@ void loop() {
     // Looking for values from 48 to 57 (ASCII '0' to ASCII '9')
     int tempTherapyMode = 1 * (Bluetooth.read() - '0');
     // TEMP/TESTING
-    // TODO: Bug when reading Bluetooth Serial, seems to send 3 instances of the same character.  Could be an issue with our code, but it worked for normal Serial so I doubt it.  Probably an issue with the Android Serial Terminal app (maybe it is using a different baud rate?)
+    // TODO: Bug when reading Bluetooth Serial, seems to send 3 instances of the same character.  
+    // Could be an issue with our code, but it worked for normal Serial so I doubt it.  
+    // Probably an issue with the Android Serial Terminal app (maybe it is using a different baud rate?)
+    // Tested against equivalent usage with BT and a serial console in Windows.  The Android Serial Terminal app is buggy, not our code.
     if(tempTherapyMode >= 0 && tempTherapyMode < 10){
       therapyMode = tempTherapyMode;
       loopReadingInput();
